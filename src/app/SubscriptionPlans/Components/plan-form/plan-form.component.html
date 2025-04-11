@@ -1,0 +1,143 @@
+<form #planForm="ngForm" (ngSubmit)="onSubmit(planForm)" class="py-5">
+  <div class="container">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center py-4">
+      <p-button
+        label="Back"
+        icon="pi pi-arrow-left"
+        class="p-button-secondary"
+        (click)="navigateToPlanList()"
+      ></p-button>
+
+      <h2 class="text-center flex-grow-1">
+        {{ isEditMode ? 'Edit Plan' : 'Add New Plan' }}
+      </h2>
+
+      <div style="width: 90px"></div> <!-- Placeholder -->
+    </div>
+
+    <!-- Form Fields -->
+    <div class="row g-4">
+
+      <!-- Plan Name -->
+      <div class="col-md-6">
+        <label for="planName" class="form-label fw-bold">
+          <i class="pi pi-tag me-2"></i>Plan Name
+        </label>
+        <input
+          type="text"
+          pInputText
+          class="form-control"
+          id="planName"
+          [(ngModel)]="model.planName"
+          name="planName"
+          required
+          minlength="3"
+          #planName="ngModel"
+          autofocus
+        />
+        <small class="form-text text-muted">Enter a descriptive name.</small>
+        <div *ngIf="planName.invalid && planName.touched" class="text-danger">
+          <div *ngIf="planName.errors?.['required']">Plan Name is required.</div>
+          <div *ngIf="planName.errors?.['minlength']">At least 3 characters.</div>
+        </div>
+      </div>
+
+      <!-- Price -->
+      <div class="col-md-6">
+        <label for="planPrice" class="form-label fw-bold">
+          <i class="pi pi-dollar me-2"></i>Price
+        </label>
+        <input
+          type="number"
+          pInputText
+          class="form-control"
+          id="planPrice"
+          [(ngModel)]="model.planPrice"
+          name="planPrice"
+          required
+          min="1"
+          #planPrice="ngModel"
+        />
+        <div *ngIf="planPrice.invalid && planPrice.touched" class="text-danger">
+          <div *ngIf="planPrice.errors?.['required']">Price is required.</div>
+          <div *ngIf="planPrice.errors?.['min']">Price must be at least 1.</div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="col-md-12">
+        <label for="description" class="form-label fw-bold">
+          <i class="pi pi-align-left me-2"></i>Description
+        </label>
+        <textarea
+          pInputTextarea
+          class="form-control"
+          id="description"
+          [(ngModel)]="model.description"
+          name="description"
+          required
+          minlength="10"
+          rows="3"
+          #description="ngModel"
+        ></textarea>
+        <small class="form-text text-muted">At least 10 characters.</small>
+        <div *ngIf="description.invalid && description.touched" class="text-danger">
+          <div *ngIf="description.errors?.['required']">Description is required.</div>
+          <div *ngIf="description.errors?.['minlength']">Minimum 10 characters.</div>
+        </div>
+      </div>
+
+      <!-- Time Period -->
+      <div class="col-md-6">
+        <label for="planDuration" class="form-label fw-bold">
+          <i class="pi pi-clock me-2"></i>Time Period
+        </label>
+        <p-dropdown
+          [(ngModel)]="model.planDuration"
+          name="planDuration"
+          [options]="timePeriodOptions"
+          optionLabel="displayName"
+          optionValue="value"
+          placeholder="Select Time Period"
+          class="w-100"
+          #planDuration="ngModel"
+        ></p-dropdown>
+        <div *ngIf="planDuration.invalid && planDuration.touched" class="text-danger">
+          <small>Time Period is required.</small>
+        </div>
+      </div>
+
+      <!-- Activate Checkbox -->
+      <div class="col-md-6 d-flex align-items-center pt-4">
+        <p-checkbox
+          [(ngModel)]="model.isActive"
+          inputId="isActive"
+          name="isActive"
+          [binary]="true"
+        ></p-checkbox>
+        <label for="isActive" class="px-2 fw-bold">
+          <i class="pi pi-check-circle me-1"></i>Deactivate Plan
+        </label>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-5">
+      <p-button
+        label="{{ isEditMode ? 'Save Changes' : 'Add Plan' }}"
+        icon="pi pi-save"
+        type="submit"
+        [disabled]="planForm.invalid"
+        class="mx-2 px-4"
+      ></p-button>
+      <p-button
+        label="Reset"
+        icon="pi pi-refresh"
+        type="reset"
+        class="mx-2 px-4"
+        (click)="planForm.resetForm()"
+      ></p-button>
+    </div>
+  </div>
+</form>

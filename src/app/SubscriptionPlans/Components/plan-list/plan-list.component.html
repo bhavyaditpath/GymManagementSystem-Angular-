@@ -1,0 +1,119 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Subscription Plans</h2>
+  <!-- <div class="d-flex justify-content-between mb-3"> -->
+   
+  <p-table
+    #dt
+    [value]="plans"
+    [paginator]="true"
+    [rows]="5"
+    [totalRecords]="totalRecords"
+    [globalFilterFields]="['planName', 'description', 'timePeriod']"
+    [resizableColumns]="true"
+    [reorderableColumns]="true"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  >
+  <ng-template #caption>
+        <div class="d-flex justify-content-between align-items-center">
+          <p-iconfield iconPosition="right">
+            <p-button
+              label="New"
+              icon="pi pi-plus"
+              class="mr-2"
+              (click)="addPlan()"
+            />
+          </p-iconfield>
+          <p-iconfield iconPosition="left" class="ml-auto">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filterGlobal(getValues($event), 'contains')"
+              placeholder="Search keyword"
+            />
+          </p-iconfield>
+        </div>
+      </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="planName">
+          Plan Name <p-sortIcon field="planName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="price">
+          Price <p-sortIcon field="price"></p-sortIcon>
+        </th>
+        <th pSortableColumn="timePeriod">
+          Time Period <p-sortIcon field="timePeriod"></p-sortIcon>
+        </th>
+        <th pSortableColumn="description">
+          Description <p-sortIcon field="description"></p-sortIcon>
+        </th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-plan>
+      <tr>
+        <td>{{ plan.planName }}</td>
+        <td>{{ plan.planPrice | currency }}</td>
+        <td>{{ plan.planDuration  }}</td>
+        <td>{{ plan.description }}</td>
+        <td>
+          <p-toast></p-toast>
+          <p-confirmpopup key="confirm1"></p-confirmpopup>
+          <p-button
+            (onClick)="toggleAction($event, plan, 'confirm1')"
+            [label]="plan.isActive ? 'Deactivate' : 'Activate'"
+            [severity]="plan.isActive ? 'danger' : 'success'"
+            [outlined]="true"
+            class="w-100"
+          ></p-button>
+        </td>
+        <td>
+          <div class="d-flex justify-content-center gap-2">
+            <p-button
+              icon="pi pi-pencil"
+              [rounded]="true"
+              [outlined]="true"
+              (click)="editPlan(plan.subscriptionPlanId)"
+              class="btn"
+            ></p-button>
+
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              class="btn"
+              [rounded]="true"
+              [outlined]="true"
+              (click)="confirmDelete(plan.subscriptionPlanId, 'confirmDelete')"
+            ></p-button>
+
+            <p-button
+              icon="pi pi-eye"
+              severity="info"
+              class="btn"
+              [rounded]="true"
+              [outlined]="true"
+              (click)="viewDetails(plan.subscriptionPlanId)"
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+   <p-confirmDialog [style]="{ width: '450px' }"  key="confirmDelete"/>
+   <p-dialog
+  header="Plan Details"
+  [(visible)]="displayDetailDialog"
+  [modal]="true"
+  [style]="{ width: '600px' }"
+  [dismissableMask]="true"
+  [closable]="true"
+ 
+>
+  <app-plan-detail *ngIf="selectedPlanId" [planId]="selectedPlanId"></app-plan-detail>
+</p-dialog>
+</div>

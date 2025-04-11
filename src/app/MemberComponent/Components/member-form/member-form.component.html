@@ -1,0 +1,290 @@
+<form #newMemberForm="ngForm" (ngSubmit)="onSubmit(newMemberForm)" class="py-5">
+  <div class="container">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center py-4">
+      <p-button
+        label="Back"
+        icon="pi pi-arrow-left"
+        class="p-button-secondary"
+        (click)="router.navigate(['/secure/member'])"
+      ></p-button>
+
+      <h2 class="text-center flex-grow-1 m-0">
+        {{ isEditMode ? "Edit Member" : "Add New Member" }}
+      </h2>
+
+      <div style="width: 90px"></div>
+    </div>
+
+    <!-- Form Fields -->
+    <div class="row g-4">
+      <!-- First Name -->
+      <div class="col-md-6">
+        <label for="firstName" class="form-label fw-bold">
+          <i class="pi pi-user me-1"></i>First Name
+        </label>
+        <input
+          type="text"
+          pInputText
+          class="form-control"
+          id="firstName"
+          [(ngModel)]="model.firstname"
+          name="firstName"
+          required
+          minlength="3"
+          #firstName="ngModel"
+          autofocus
+        />
+        <small class="form-text text-muted">At least 3 characters.</small>
+        <div *ngIf="firstName.invalid && firstName.touched" class="text-danger">
+          <div *ngIf="firstName.errors?.['required']">
+            First Name is required.
+          </div>
+          <div *ngIf="firstName.errors?.['minlength']">
+            Must be at least 3 characters.
+          </div>
+        </div>
+      </div>
+
+      <!-- Last Name -->
+      <div class="col-md-6">
+        <label for="lastName" class="form-label fw-bold">
+          <i class="pi pi-user me-1"></i>Last Name
+        </label>
+        <input
+          type="text"
+          pInputText
+          class="form-control"
+          id="lastName"
+          [(ngModel)]="model.lastname"
+          name="lastName"
+          required
+          minlength="3"
+          #lastName="ngModel"
+        />
+        <small class="form-text text-muted">At least 3 characters.</small>
+        <div *ngIf="lastName.invalid && lastName.touched" class="text-danger">
+          <div *ngIf="lastName.errors?.['required']">
+            Last Name is required.
+          </div>
+          <div *ngIf="lastName.errors?.['minlength']">
+            Must be at least 3 characters.
+          </div>
+        </div>
+      </div>
+
+      <!-- Gender -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">
+          <i class="pi pi-users me-1"></i>Gender
+        </label>
+        <p-select
+          [(ngModel)]="model.gender"
+          name="gender"
+          optionLabel="displayName"
+          optionValue="name"
+          placeholder="Select Gender"
+          [options]="genderOptions"
+          class="w-100"
+          required
+          #gender="ngModel"
+        ></p-select>
+        <div *ngIf="gender.invalid && gender.touched" class="text-danger mt-1">
+          <small>Gender is required.</small>
+        </div>
+      </div>
+
+      <!-- Age -->
+      <div class="col-md-6">
+        <label for="age" class="form-label fw-bold">
+          <i class="pi pi-calendar me-1"></i>Age
+        </label>
+        <input
+          type="number"
+          pInputText
+          class="form-control"
+          id="age"
+          [(ngModel)]="model.age"
+          name="age"
+          required
+          min="18"
+          max="100"
+          #age="ngModel"
+        />
+        <div *ngIf="age.invalid && age.touched" class="text-danger">
+          <div *ngIf="age.errors?.['required']">Age is required.</div>
+          <div *ngIf="age.errors?.['min']">Age must be at least 18.</div>
+          <div *ngIf="age.errors?.['max']">Age must not exceed 100.</div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="col-md-6">
+        <label for="email" class="form-label fw-bold">
+          <i class="pi pi-envelope me-1"></i>Email
+        </label>
+        <input
+          type="email"
+          pInputText
+          class="form-control"
+          id="email"
+          [(ngModel)]="model.email"
+          name="email"
+          required
+          #email="ngModel"
+        />
+        <div *ngIf="email.invalid && email.touched" class="text-danger">
+          <div *ngIf="email.errors?.['required']">Email is required.</div>
+          <div *ngIf="email.errors?.['email']">
+            Enter a valid email address.
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="col-md-6">
+        <label for="phoneNumber" class="form-label fw-bold">
+          <i class="pi pi-phone me-1"></i>Phone Number
+        </label>
+        <div class="input-group">
+          <input
+            type="text"
+            pInputText
+            class="form-control"
+            id="phoneNumber"
+            [(ngModel)]="model.phoneNumber"
+            name="phoneNumber"
+           pattern="^\d{10}$"
+            required
+            #phoneNumber="ngModel"
+          />
+        </div>
+        <div
+          *ngIf="phoneNumber.invalid && phoneNumber.touched"
+          class="text-danger mt-1"
+        >
+          <small *ngIf="phoneNumber.errors?.['required']"
+            >Phone Number is required.</small
+          >
+          <small *ngIf="phoneNumber.errors?.['pattern']">
+            Invalid format. Only numbers format is allowed.
+          </small>
+        </div>
+      </div>
+
+      <!-- Subscription Plan -->
+      <div class="col-md-6">
+        <label for="subscriptionPlanId" class="form-label fw-bold">
+          <i class="pi pi-tags me-1"></i>Subscription Plan
+        </label>
+        <p-dropdown
+          id="subscriptionPlanId"
+          [options]="subscriptionPlans"
+          optionLabel="planName"
+          optionValue="subscriptionPlanId"
+          [(ngModel)]="model.subscriptionPlanId"
+          name="subscriptionPlanId"
+          placeholder="Select Subscription Plan"
+          class="w-100"
+          required
+          #subscriptionPlanId="ngModel"
+        ></p-dropdown>
+        <div
+          *ngIf="subscriptionPlanId.invalid && subscriptionPlanId.touched"
+          class="text-danger"
+        >
+          <small>Subscription Plan is required.</small>
+        </div>
+      </div>
+
+      <!-- Joining Date -->
+      <div class="col-md-6" *ngIf="model">
+        <label for="joiningDate" class="form-label fw-bold">
+          <i class="pi pi-calendar me-1"></i>Joining Date
+        </label>
+        <p-calendar
+          [(ngModel)]="model.joiningDate"
+          name="joiningDate"
+          id="joiningDate"
+          [showIcon]="true"
+          dateFormat="yy-mm-dd"
+          [maxDate]="today"
+          required
+          class="w-100"
+          #joiningDate="ngModel"
+        ></p-calendar>
+        <div
+          *ngIf="joiningDate.invalid && joiningDate.touched"
+          class="text-danger"
+        >
+          <small *ngIf="joiningDate.errors?.['required']"
+            >Joining date is required.</small
+          >
+        </div>
+      </div>
+
+      <!-- Profile Picture Upload -->
+      <div class="col-md-12">
+        <label for="profileImage" class="form-label fw-bold">
+          <i class="pi pi-image me-1"></i>Profile Picture
+        </label>
+        <p-fileUpload
+          name="profileImage"
+          accept="image/*"
+          maxFileSize="5000000"
+          [auto]="false"
+          [customUpload]="false"
+          chooseLabel="Select Image"
+          (onSelect)="onFileSelect($event)"
+          class="w-100"
+        >
+          <ng-template pTemplate="content">
+            <div class="text-center">
+              <i class="pi pi-upload" style="font-size: 2rem"></i>
+              <p class="mt-2">Drag and drop or click to upload</p>
+            </div>
+          </ng-template>
+        </p-fileUpload>
+      </div>
+      <!-- 
+      <div *ngIf="model.memberImagePath">
+        <img
+          [src]="model.memberImagePath"
+          alt="Profile Image"
+          class="img-thumbnail mt-2"
+          style="max-width: 150px"
+        />
+      </div> -->
+
+      <!-- Activate Checkbox -->
+      <div class="col-md-6 d-flex align-items-center pt-4">
+        <p-checkbox
+          [(ngModel)]="model.isActive"
+          inputId="isActive"
+          name="isActive"
+          [binary]="true"
+        ></p-checkbox>
+        <label for="isActive" class="px-2 fw-bold">deactivate member</label>
+      </div>
+
+      <!-- Buttons -->
+      <div class="text-center mt-5">
+        <p-button
+          label="{{ isEditMode ? 'Save Changes' : 'Add Member' }}"
+          icon="pi pi-check"
+          type="submit"
+          class="me-2 px-4"
+          [disabled]="newMemberForm.invalid"
+        ></p-button>
+
+        <p-button
+          label="Reset"
+          icon="pi pi-refresh"
+          type="reset"
+          class="px-4"
+          (click)="newMemberForm.resetForm()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</form>

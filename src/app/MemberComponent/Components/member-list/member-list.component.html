@@ -1,0 +1,132 @@
+<div class="container py-4">
+  <h2 class="text-center mb-4">Members</h2>
+  <p-table
+    #dt
+    [value]="members"
+    [paginator]="true"
+    [rows]="5"
+    [totalRecords]="totalRecords"
+    (onLazyLoad)="loadMembers()"
+    [globalFilterFields]="[
+      'firstName',
+      'lastName',
+      'email',
+      'subscriptionPlanName'
+    ]"
+    [responsiveLayout]="'scroll'"
+    [resizableColumns]="true"
+    [reorderableColumns]="true"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    class="table table-hover"
+  >
+    <ng-template #caption>
+      <div class="d-flex justify-content-between align-items-center">
+        <p-iconfield iconPosition="right">
+          <p-button
+            label="New"
+            icon="pi pi-plus"
+            class="mr-2"
+            (click)="addMember()"
+          />
+        </p-iconfield>
+        <p-iconfield iconPosition="left" class="ml-auto">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filterGlobal(getValues($event), 'contains')"
+            placeholder="Search keyword"
+          />
+        </p-iconfield>
+      </div>
+    </ng-template>
+    <!-- Table Header -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="firstName">
+          Full Name <p-sortIcon field="firstName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="gender">
+          Gender <p-sortIcon field="gender"></p-sortIcon>
+        </th>
+        <th pSortableColumn="age">Age <p-sortIcon field="age"></p-sortIcon></th>
+        <th pSortableColumn="subscriptionPlanName">
+          Subscription Plan
+          <p-sortIcon field="subscriptionPlanName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="email">
+          Email <p-sortIcon field="email"></p-sortIcon>
+        </th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+
+    <!-- Table Body -->
+    <ng-template pTemplate="body" let-member>
+      <tr>
+        <td>{{ member.firstname }} {{ member.lastname }}</td>
+        <td>{{ member.gender }}</td>
+        <td>{{ member.age }}</td>
+        <td>{{ getSubscriptionPlanName(member.subscriptionPlanId) }}</td>
+        <td>{{ member.email }}</td>
+        <td>
+          <p-toast></p-toast>
+          <p-confirmPopup key="confirm1"></p-confirmPopup>
+          <p-button
+            (onClick)="toggleAction($event, member, 'confirm1')"
+            [label]="member.isActive ? 'Deactivate' : 'Activate'"
+            [severity]="member.isActive ? 'danger' : 'success'"
+            [outlined]="true"
+            class="w-100"
+          ></p-button>
+        </td>
+        <td>
+          <div class="d-flex justify-content-center gap-2 flex-wrap">
+            <p-button
+              icon="pi pi-pencil"
+              class="btn"
+              [rounded]="true"
+              [outlined]="true"
+              (click)="editMember(member.memberId)"
+            ></p-button>
+
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              class="btn"
+              [rounded]="true"
+              [outlined]="true"
+              (click)="confirmDelete(member.memberId, 'confirmDelete')"
+            ></p-button>
+
+            <p-button
+              icon="pi pi-eye"
+              severity="info"
+              class="btn"
+              [rounded]="true"
+              [outlined]="true"
+              (click)="viewDetails(member.memberId)"
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-confirmPopup key="confirmDelete"></p-confirmPopup>
+
+  <p-dialog
+    header="Member Details"
+    [(visible)]="showDetailsDialog"
+    [modal]="true"
+    [style]="{ width: '600px' }"
+    [closable]="true"
+    [dismissableMask]="true"
+  >
+    <app-member-details [memberId]="selectedMemberId"></app-member-details>
+    <!-- <app-member-detail [memberId]="selectedMemberId"></app-member-detail> -->
+  </p-dialog>
+</div>
