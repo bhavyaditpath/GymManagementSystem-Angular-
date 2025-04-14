@@ -8,7 +8,7 @@ import { API_URLS } from '../../Shared/constants/apiurls.constant';
   providedIn: 'root',
 })
 export class PlansService {
-  private readonly endpoint = 'SubscriptionPlans';
+  private readonly endpoint = API_URLS.subscriptionPlanUrl;
 
   constructor(private apiService: ApiService) {}
 

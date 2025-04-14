@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Member } from '../../Shared/Models/member.model';
 import { ApiService } from '../../Shared/ApiService/api.service';
+import { API_URLS } from '../../Shared/constants/apiurls.constant';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MemberService {
-  private readonly endpoint = 'Member';
+  private readonly endpoint = API_URLS.memberUrl;
   constructor(private apiService: ApiService) {}
 
   getMembers(params?: any): Observable<Member[]> {

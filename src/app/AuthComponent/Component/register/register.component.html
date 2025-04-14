@@ -1,0 +1,141 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="row w-100 shadow rounded overflow-hidden" style="max-width: 800px; background-color: #fff">
+    
+    <!-- Optional Image -->
+    <div class="col-md-6 d-none d-md-block p-0">
+      <img src="../../../../Shared/assets/guy-gym.jpg" class="img-fluid h-100 w-100" style="object-fit: cover;" />
+    </div>
+
+    <div class="col-md-6 p-4">
+      <div class="text-center mb-4">
+        <h2 class="text-primary">Register</h2>
+      </div>
+
+      <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+        
+        <!-- Username -->
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="pi pi-user text-primary"></i>
+            </span>
+            <input
+              pInputText
+              type="text"
+              id="username"
+              name="username"
+              class="form-control border-start-0"
+              placeholder="Enter username"
+              required
+              ngModel
+              #username="ngModel"
+            />
+          </div>
+          <small class="text-danger" *ngIf="username.invalid && username.touched">
+            Username is required
+          </small>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="pi pi-envelope text-primary"></i>
+            </span>
+            <input
+              pInputText
+              type="email"
+              id="email"
+              name="email"
+              class="form-control border-start-0"
+              placeholder="Enter email"
+              required
+              email
+              ngModel
+              #email="ngModel"
+            />
+          </div>
+          <small class="text-danger" *ngIf="email.invalid && email.touched">
+            <span *ngIf="email.errors?.['required']">Email is required</span>
+            <span *ngIf="email.errors?.['email']">Enter a valid email address</span>
+          </small>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="pi pi-lock text-primary"></i>
+            </span>
+            <input
+              pInputText
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              name="password"
+              class="form-control border-start-0 border-end-0"
+              placeholder="Enter password"
+              required
+              minlength="6"
+              ngModel
+              #password="ngModel"
+            />
+            <span class="input-group-text bg-white border-start-0" (click)="showPassword = !showPassword" style="cursor: pointer;">
+              <i class="pi" [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'"></i>
+            </span>
+          </div>
+          <small class="text-danger" *ngIf="password.invalid && password.touched">
+            <span *ngIf="password.errors?.['required']">Password is required</span>
+            <span *ngIf="password.errors?.['minlength']">Minimum 6 characters required</span>
+          </small>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="mb-4">
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="pi pi-lock text-primary"></i>
+            </span>
+            <input
+              pInputText
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              id="confirmPassword"
+              name="confirmPassword"
+              class="form-control border-start-0 border-end-0"
+              placeholder="Confirm password"
+              required
+              ngModel
+              #confirmPassword="ngModel"
+            />
+            <span class="input-group-text bg-white border-start-0" (click)="showConfirmPassword = !showConfirmPassword" style="cursor: pointer;">
+              <i class="pi" [ngClass]="showConfirmPassword ? 'pi-eye-slash' : 'pi-eye'"></i>
+            </span>
+          </div>
+          <small class="text-danger" *ngIf="confirmPassword.invalid && confirmPassword.touched">
+            Confirm Password is required
+          </small>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          pButton
+          type="submit"
+          label="Register"
+          class="w-100 p-button-rounded p-button-primary"
+          [disabled]="registerForm.invalid"
+        ></button>
+      </form>
+
+      <!-- Redirect to Login -->
+      <div class="text-center mt-3">
+        <p>
+          Already have an account?
+          <a routerLink="/auth/login" class="text-primary" style="cursor: pointer;">Login here</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
