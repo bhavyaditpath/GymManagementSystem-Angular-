@@ -198,7 +198,7 @@
       </div>
 
       <!-- Joining Date -->
-      <div class="col-md-6" *ngIf="model">
+      <div class="col-md-6" >
         <label for="joiningDate" class="form-label fw-bold">
           <i class="pi pi-calendar me-1"></i>Joining Date
         </label>
@@ -207,7 +207,7 @@
           name="joiningDate"
           id="joiningDate"
           [showIcon]="true"
-          dateFormat="yy-mm-dd"
+          dateFormat="dd-mm-yy"
           [maxDate]="today"
           required
           class="w-100"
@@ -246,15 +246,6 @@
           </ng-template>
         </p-fileUpload>
       </div>
-      <!-- 
-      <div *ngIf="model.memberImagePath">
-        <img
-          [src]="model.memberImagePath"
-          alt="Profile Image"
-          class="img-thumbnail mt-2"
-          style="max-width: 150px"
-        />
-      </div> -->
 
       <!-- Activate Checkbox -->
       <div class="col-md-6 d-flex align-items-center pt-4">
@@ -287,4 +278,5 @@
       </div>
     </div>
   </div>
+
 </form>

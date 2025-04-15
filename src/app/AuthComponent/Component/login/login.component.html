@@ -1,69 +1,72 @@
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="row w-100 shadow rounded overflow-hidden" style="max-width: 800px; background-color: #fff">
-      
-      <!-- Optional Image -->
-      <div class="col-md-6 d-none d-md-block p-0">
-        <img src="" class="img-fluid h-100 w-100" style="object-fit: cover;" />
+<div class="container d-flex justify-content-center align-items-center vh-100 ">
+  <div class="row w-100 shadow-lg rounded-4 overflow-hidden" style="max-width: 850px; background-color: #ffffff;">
+
+    <!-- Left Image Section -->
+    <div class="col-md-6 d-none d-md-block p-0">
+      <img src="assets/images/login-illustration.jpg" alt="Login" class="img-fluid h-100 w-100" style="object-fit: cover;" />
+    </div>
+
+    <!-- Login Form Section -->
+    <div class="col-md-6 p-5">
+      <div class="text-center mb-4">
+        <h2 class="fw-bold text-primary">Welcome Back</h2>
+        <p class="text-muted mb-0">Please login to your account</p>
       </div>
-  
-      <div class="col-md-6 p-4">
-        <div class="text-center mb-4">
-          <h2 class="text-primary">Login</h2>
+
+      <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+        
+        <!-- Email -->
+        <div class="mb-4">
+          <label for="email" class="form-label fw-semibold">Email</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="pi pi-envelope text-primary"></i>
+            </span>
+            <input
+              pInputText
+              type="email"
+              id="email"
+              name="email"
+              class="form-control border-start-0"
+              placeholder="Enter your email"
+              required
+              [(ngModel)]="model.email"
+              #email="ngModel"
+            />
+          </div>
+          <small class="text-danger" *ngIf="email.invalid && email.touched">
+            <span *ngIf="email.errors?.['required']">Email is required</span>
+            <span *ngIf="email.errors?.['email']">Enter a valid email</span>
+          </small>
         </div>
-  
-        <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
-          
-          <!-- Email -->
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <div class="input-group">
-              <span class="input-group-text bg-white border-end-0">
-                <i class="pi pi-envelope text-primary"></i>
-              </span>
-              <input
-                pInputText
-                type="email"
-                id="email"
-                name="email"
-                class="form-control border-start-0"
-                placeholder="Enter email"
-                required
-                [(ngModel)]="model.email"
-                #email="ngModel"
-              />
-            </div>
-            <small class="text-danger" *ngIf="email.invalid && email.touched">
-              <span *ngIf="email.errors?.['required']">Email is required</span>
-              <span *ngIf="email.errors?.['email']">Enter a valid email address</span>
-            </small>
+
+        <!-- Password -->
+        <div class="mb-4">
+          <label for="password" class="form-label fw-semibold">Password</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="pi pi-lock text-primary"></i>
+            </span>
+            <input
+              pInputText
+              type="password"
+              id="password"
+              name="password"
+              class="form-control border-start-0"
+              placeholder="Enter your password"
+              required
+              [(ngModel)]="model.password"
+              #password="ngModel"
+            />
           </div>
-  
-          <!-- Password -->
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <div class="input-group">
-              <span class="input-group-text bg-white border-end-0">
-                <i class="pi pi-lock text-primary"></i>
-              </span>
-              <input
-                pInputText
-                type="password"
-                id="password"
-                name="password"
-                class="form-control border-start-0"
-                placeholder="Enter password"
-                required
-                [(ngModel)]="model.password"
-                #password="ngModel"
-              />
-            </div>
-            <small class="text-danger" *ngIf="password.invalid && password.touched">
-              <span *ngIf="password.errors?.['required']">Password is required</span>
-            </small>
-          </div>
-  
-          <!-- Remember Me -->
-          <div class="mb-3 form-check">
+          <small class="text-danger" *ngIf="password.invalid && password.touched">
+            Password is required
+          </small>
+        </div>
+
+        <!-- Remember Me -->
+        <div class="mb-4 d-flex justify-content-between align-items-center">
+          <div class="form-check">
             <input
               type="checkbox"
               class="form-check-input"
@@ -73,25 +76,26 @@
             />
             <label class="form-check-label" for="rememberMe">Remember Me</label>
           </div>
-  
-          <!-- Submit Button -->
-          <button
-            pButton
-            type="submit"
-            label="Login"
-            class="w-100 p-button-rounded p-button-primary"
-            [disabled]="loginForm.invalid"
-          ></button>
-        </form>
-  
-        <!-- Redirect to Register -->
-        <div class="text-center mt-3">
-          <p>
-            Don't have an account?
-            <a routerLink="/auth/register" class="text-primary" style="cursor: pointer;">Register here</a>
-          </p>
+          <a href="#" class="text-decoration-none text-primary small">Forgot Password?</a>
         </div>
+
+        <!-- Submit Button -->
+        <button
+          pButton
+          type="submit"
+          label="Login"
+          class="w-100 p-button-rounded p-button-primary"
+          [disabled]="loginForm.invalid"
+        ></button>
+      </form>
+
+      <!-- Register Redirect -->
+      <div class="text-center mt-4">
+        <p class="mb-0 text-muted">
+          Don't have an account?
+          <a routerLink="/auth/register" class="text-primary fw-semibold" style="cursor: pointer;">Register here</a>
+        </p>
       </div>
     </div>
   </div>
-  
+</div>

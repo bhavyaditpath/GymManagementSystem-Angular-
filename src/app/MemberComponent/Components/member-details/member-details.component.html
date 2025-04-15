@@ -1,5 +1,7 @@
-<div *ngIf="member" class="card p-4 shadow-sm">
-  <h3 class="text-center mb-4">👤 Member Details</h3>
+<div *ngIf="member" class="card shadow-2xl p-4">
+  <h3 class="text-center mb-4">
+    <i class="pi pi-user mr-2"></i> Member Details
+  </h3>
 
   <div class="row mb-3">
     <div class="col-md-6">
@@ -18,8 +20,8 @@
       <p><strong>Status:</strong> 
         <span 
           class="badge" 
-          [ngClass]="member.isActive ? 'bg-secondary' : 'bg-success'"
-        >
+          [ngClass]="member.isActive ? 'bg-secondary' : 'bg-success'">
+          <i class="pi" [ngClass]="member.isActive ? 'pi-check-circle' : 'pi-times-circle'"></i>
           {{ member.isActive ? 'IsActive' : 'Active' }}
         </span>
       </p>
@@ -28,7 +30,9 @@
 
   <div class="row mb-3">
     <div class="col-md-6">
-      <p><strong>Subscription Plan:</strong> {{ member.subscriptionPlanId }}</p>
+      <p><strong>Subscription Plan:</strong> 
+        <span class="badge bg-primary">{{ member.subscriptionPlanId }}</span>
+      </p>
     </div>
     <div class="col-md-6">
       <p><strong>Joining Date:</strong> {{ member.joiningDate | date: 'yyyy-MM-dd' }}</p>
@@ -50,9 +54,13 @@
       *ngIf="member.profileImageUrl"
       [src]="member.profileImageUrl"
       alt="Profile Image"
-      class="img-thumbnail rounded"
+      class="img-fluid rounded-circle shadow-2xl"
       style="max-width: 200px; height: auto;"
     />
-    <p *ngIf="!member.profileImageUrl" class="text-muted">No profile image available.</p>
+    <p *ngIf="!member.profileImageUrl" class="text-muted">
+      <i class="pi pi-image"></i> No profile image available.
+    </p>
   </div>
+
+  
 </div>

@@ -15,7 +15,7 @@ import { MemberService } from './Services/member.service';
 import { InputNumber } from 'primeng/inputnumber';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { Toast } from 'primeng/toast';
+import { Toast, ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Select } from 'primeng/select';
 import { IconField } from 'primeng/iconfield';
@@ -53,7 +53,7 @@ import { CalendarModule } from 'primeng/calendar';
     Checkbox,
     CalendarIcon,
     CalendarModule,
-
+    ToastModule
   ],
   exports: [MemberDetailsComponent],
   providers: [ConfirmationService, MessageService], // Add ConfirmationService and MessageService here

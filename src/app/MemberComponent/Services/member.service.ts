@@ -21,8 +21,8 @@ export class MemberService {
     return this.apiService.getDataWithParams<Member>(fullUrl, {});
   }
 
-  createMember(id:Number, member: Member): Observable<Member> {
-    return this.apiService.postData<Member>(this.endpoint, member);
+  createMember(id:Number, member: Member): Observable<{member:Member, message:string}> {
+    return this.apiService.postData<{member:Member, message:string}>(this.endpoint, member);
   }
 
   updateMember(id: number, member: Member): Observable<Member> {

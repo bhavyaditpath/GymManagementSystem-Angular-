@@ -10,8 +10,6 @@
     [globalFilterFields]="[
       'firstName',
       'lastName',
-      'email',
-      'subscriptionPlanName'
     ]"
     [responsiveLayout]="'scroll'"
     [resizableColumns]="true"
@@ -93,7 +91,7 @@
               [outlined]="true"
               (click)="editMember(member.memberId)"
             ></p-button>
-
+            <p-confirmPopup key="confirmDelete"></p-confirmPopup>
             <p-button
               icon="pi pi-trash"
               severity="danger"
@@ -114,9 +112,11 @@
           </div>
         </td>
       </tr>
+  
+
     </ng-template>
   </p-table>
-  <p-confirmPopup key="confirmDelete"></p-confirmPopup>
+
 
   <p-dialog
     header="Member Details"
@@ -127,6 +127,5 @@
     [dismissableMask]="true"
   >
     <app-member-details [memberId]="selectedMemberId"></app-member-details>
-    <!-- <app-member-detail [memberId]="selectedMemberId"></app-member-detail> -->
   </p-dialog>
 </div>

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LoaderComponent } from './Shared/Components/loader/loader.component';
-
+import { ToastModule } from 'primeng/toast';
   
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LoaderComponent],
+  imports: [RouterOutlet, LoaderComponent, ToastModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

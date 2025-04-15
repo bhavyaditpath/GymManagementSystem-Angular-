@@ -20,8 +20,9 @@ export class LoginComponent {
       this.authService.login(this.model).subscribe({
         next: (response) => {
           console.log('Login successful:', response);
-          this.authService.storeToken(response.token);  // Store the token
           this.router.navigate(['/secure/member']);
+          this.authService.storeToken(response.token);  // Store the token
+       
         },
         error: (error) => {
           console.error('Login failed:', error);

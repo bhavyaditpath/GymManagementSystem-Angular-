@@ -5,6 +5,7 @@ import { MemberService } from '../../Services/member.service';
 import { Member } from '../../../Shared/Models/member.model';
 import { PlansService } from '../../../SubscriptionPlans/Services/plans.service';
 import { subscriptionPlanModel } from '../../../Shared/Models/plans.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-member-form',
@@ -31,7 +32,8 @@ export class MemberFormComponent implements OnInit {
     private memberService: MemberService,
     public router: Router,
     private route: ActivatedRoute,
-    private subscriptionPlanService: PlansService
+    private subscriptionPlanService: PlansService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +55,11 @@ export class MemberFormComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading member:', err);
-        alert('Failed to load member');
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load member'
+        });
         this.loading = false;
       },
     });
@@ -66,6 +72,11 @@ export class MemberFormComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to load subscription plans:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load subscription plans'
+        });
       },
     });
   }
@@ -81,71 +92,83 @@ export class MemberFormComponent implements OnInit {
     if (!this.validateForm(form)) return;
 
     if (this.isEditMode) {
-      this.memberService
-        .updateMember(this.model.memberId!, this.model)
-        .subscribe({
-          next: () => {
-            this.handleImageUpload(this.model.memberId!, this.selectedFile);
-                this.navigateToMemberList();
-          },
-          error: (err) => {
-            console.error('Error updating member:', err);
-            alert('Failed to update member.');
-          },
-        });
+      this.memberService.updateMember(this.model.memberId!, this.model).subscribe({
+        next: () => {
+          this.handleImageUpload(this.model.memberId!, this.selectedFile);
+        },
+        error: (err) => {
+          console.error('Error updating member:', err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update member.'
+          });
+        },
+      });
     } else {
-      this.memberService.createMember(this.model.memberId! , this.model).subscribe({
-        next: (createdMember) => {
-          debugger
-          console.log('Created Member Response:', createdMember);
-          
-          if (createdMember?.memberId) {
-            this.handleImageUpload(createdMember.memberId, this.selectedFile);
-                this.navigateToMemberList();
+      this.memberService.createMember(this.model.memberId!, this.model).subscribe({
+        next: (data) => {
+          if (data?.member?.memberId) {
+            this.handleImageUpload(data.member.memberId, this.selectedFile);
           } else {
-            alert('Member created, but no ID returned. Skipping image upload.');
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Warning',
+              detail: 'Member created, but no ID returned. Skipping image upload.'
+            });
             this.navigateToMemberList();
           }
         },
         error: (err) => {
           console.error('Error creating member:', err);
-          alert('Failed to create member.');
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to create member.'
+          });
         },
       });
     }
   }
 
   private handleImageUpload(memberId: number, imageFile: File | null): void {
-    if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('file', this.selectedFile);
-
-      if (memberId != null) {
-        formData.append('memberId', memberId.toString()); // ✅ Safer call
-      }
-
-      this.memberService
-        .uploadProfileImage(memberId, this.selectedFile)
-        .subscribe({
-          next: () => {
-            alert('Member and image uploaded successfully');
-            this.navigateToMemberList();
-          },
-          error: (err) => {
-            console.error('Image upload failed:', err);
-            alert('Member saved, but image upload failed.');
-            this.navigateToMemberList();
-          },
-        });
+    if (imageFile) {
+      this.memberService.uploadProfileImage(memberId, imageFile).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Member and image uploaded successfully'
+          });
+          this.navigateToMemberList();
+        },
+        error: (err) => {
+          console.error('Image upload failed:', err);
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Partial Success',
+            detail: 'Member saved, but image upload failed.'
+          });
+          this.navigateToMemberList();
+        },
+      });
     } else {
-      alert('Member saved successfully');
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Member saved successfully'
+      });
       this.navigateToMemberList();
     }
   }
 
   private validateForm(form: NgForm): boolean {
     if (form.invalid) {
-      alert('Please fill out the form correctly.');
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation Error',
+        detail: 'Please fill out the form correctly.'
+      });
       return false;
     }
     return true;
