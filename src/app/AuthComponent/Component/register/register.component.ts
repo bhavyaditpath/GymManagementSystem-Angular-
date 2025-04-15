@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
-import { NgForm, FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
 import { RegisterModel } from '../../../Shared/Models/register.model';
 import { AuthService } from '../../Services/auth.service';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
-  standalone: true,
-  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule]
+  styleUrls: ['./register.component.css'],
+  standalone: false,
 })
 
 export class RegisterComponent {
@@ -25,28 +21,18 @@ export class RegisterComponent {
   model: RegisterModel = new RegisterModel();
 
   onRegister(form: NgForm) {
-    if (form.invalid) {
-      return;
+    if (form.valid && this.user.password === this.user.confirmPassword) {
+      this.authService.register(this.user).subscribe({
+        next: (response) => {
+          console.log('Registration successful:', response);
+          form.reset();
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          console.error('Registration failed:', error);
+        }
+      });
     }
-
-    const registerData: RegisterModel = form.value;
-
-    if (registerData.password !== registerData.confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
-
-    this.authService.register(registerData).subscribe({
-      next: (res) => {
-        console.log('Registration successful:', res);
-        alert('Registration successful');
-        this.router.navigate(['/auth/login']);
-      },
-      error: (err) => {
-        console.error('Registration error:', err);
-        alert('Registration failed: ' + (err.error?.message || 'Unknown error'));
-      }
-    });
   }
 }
 

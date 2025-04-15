@@ -96,7 +96,9 @@ export class MemberFormComponent implements OnInit {
     } else {
       this.memberService.createMember(this.model.memberId! , this.model).subscribe({
         next: (createdMember) => {
+          debugger
           console.log('Created Member Response:', createdMember);
+          
           if (createdMember?.memberId) {
             this.handleImageUpload(createdMember.memberId, this.selectedFile);
                 this.navigateToMemberList();

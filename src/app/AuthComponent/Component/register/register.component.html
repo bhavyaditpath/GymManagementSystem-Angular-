@@ -3,7 +3,7 @@
     
     <!-- Optional Image -->
     <div class="col-md-6 d-none d-md-block p-0">
-      <img src="../../../../Shared/assets/guy-gym.jpg" class="img-fluid h-100 w-100" style="object-fit: cover;" />
+      <img src="" class="img-fluid h-100 w-100" style="object-fit: cover;" />
     </div>
 
     <div class="col-md-6 p-4">
@@ -27,9 +27,10 @@
               name="username"
               class="form-control border-start-0"
               placeholder="Enter username"
-              required
-              ngModel
+              [(ngModel)]="user.username"
               #username="ngModel"
+              required
+              
             />
           </div>
           <small class="text-danger" *ngIf="username.invalid && username.touched">
@@ -51,10 +52,11 @@
               name="email"
               class="form-control border-start-0"
               placeholder="Enter email"
+              [(ngModel)]="user.email"
+              #email="ngModel"
               required
               email
-              ngModel
-              #email="ngModel"
+              
             />
           </div>
           <small class="text-danger" *ngIf="email.invalid && email.touched">
@@ -77,13 +79,15 @@
               name="password"
               class="form-control border-start-0 border-end-0"
               placeholder="Enter password"
-              required
+              
               minlength="6"
-              ngModel
+              [(ngModel)]="user.password"
               #password="ngModel"
+              required
             />
             <span class="input-group-text bg-white border-start-0" (click)="showPassword = !showPassword" style="cursor: pointer;">
-              <i class="pi" [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'"></i>
+              <i class="pi {{ showPassword ? 'pi-eye-slash' : 'pi-eye' }}"></i>
+
             </span>
           </div>
           <small class="text-danger" *ngIf="password.invalid && password.touched">
@@ -106,12 +110,12 @@
               name="confirmPassword"
               class="form-control border-start-0 border-end-0"
               placeholder="Confirm password"
-              required
-              ngModel
+              [(ngModel)]="user.confirmPassword"
               #confirmPassword="ngModel"
+              required
             />
             <span class="input-group-text bg-white border-start-0" (click)="showConfirmPassword = !showConfirmPassword" style="cursor: pointer;">
-              <i class="pi" [ngClass]="showConfirmPassword ? 'pi-eye-slash' : 'pi-eye'"></i>
+              <i class="pi {{ showConfirmPassword ? 'pi-eye-slash' : 'pi-eye' }}"></i>
             </span>
           </div>
           <small class="text-danger" *ngIf="confirmPassword.invalid && confirmPassword.touched">

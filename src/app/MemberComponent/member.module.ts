@@ -53,7 +53,7 @@ import { CalendarModule } from 'primeng/calendar';
     Checkbox,
     CalendarIcon,
     CalendarModule,
-    
+
   ],
   exports: [MemberDetailsComponent],
   providers: [ConfirmationService, MessageService], // Add ConfirmationService and MessageService here

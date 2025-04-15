@@ -3,7 +3,7 @@
       
       <!-- Optional Image -->
       <div class="col-md-6 d-none d-md-block p-0">
-        <img src="../../../../Shared/assets/guy-gym.jpg" class="img-fluid h-100 w-100" style="object-fit: cover;" />
+        <img src="" class="img-fluid h-100 w-100" style="object-fit: cover;" />
       </div>
   
       <div class="col-md-6 p-4">
@@ -28,7 +28,7 @@
                 class="form-control border-start-0"
                 placeholder="Enter email"
                 required
-                ngModel
+                [(ngModel)]="model.email"
                 #email="ngModel"
               />
             </div>
@@ -53,7 +53,7 @@
                 class="form-control border-start-0"
                 placeholder="Enter password"
                 required
-                ngModel
+                [(ngModel)]="model.password"
                 #password="ngModel"
               />
             </div>
@@ -69,7 +69,7 @@
               class="form-check-input"
               id="rememberMe"
               name="rememberMe"
-              ngModel
+              [(ngModel)]="model.rememberMe"
             />
             <label class="form-check-label" for="rememberMe">Remember Me</label>
           </div>

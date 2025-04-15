@@ -1,15 +1,17 @@
 import { Routes } from '@angular/router';
 import { NavbarComponent } from './Shared/Components/navbar/navbar.component';
+import { AuthGuard} from './AuthComponent/guard/auth.guard';
 
 export const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./AuthComponent/auth-routing.module').then((m) => m.AuthRoutingModule),
+    loadChildren: () => import('./AuthComponent/auth.module').then((m) => m.AuthModule),
   },
   { path: '', redirectTo: '/auth/register', pathMatch: 'full' },   
   {
     path: 'secure',
     component: NavbarComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'member',

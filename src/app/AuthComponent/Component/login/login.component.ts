@@ -1,42 +1,33 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../Services/auth.service';
-import { LoginModel } from '../../../Shared/Models/login.model';
 import { NgForm } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
+import { LoginModel } from '../../../Shared/Models/login.model';
+import { AuthService } from '../../Services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
-  standalone: true,
-  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule]
+  styleUrls: ['./login.component.css'],
+  standalone: false
 })
 export class LoginComponent {
-  showPassword: boolean = false;
+  model: LoginModel = new LoginModel();
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin(form: NgForm) {
-    if (form.invalid) {
-      return;
+    if (form.valid) {
+      this.authService.login(this.model).subscribe({
+        next: (response) => {
+          console.log('Login successful:', response);
+          this.authService.storeToken(response.token);  // Store the token
+          this.router.navigate(['/secure/member']);
+        },
+        error: (error) => {
+          console.error('Login failed:', error);
+        }
+      });
     }
-
-    const loginData: LoginModel = form.value;
-
-    this.authService.login(loginData).subscribe({
-      next: (res) => {
-        console.log('Login successful:', res);
-        alert('Login successful');
-        this.router.navigate(['/member']);
-      },
-      error: (err) => {
-        console.error('Login error:', err);
-        alert('Login failed: ' + (err.error?.message || 'Unknown error'));
-      }
-    });
   }
+  
 }
