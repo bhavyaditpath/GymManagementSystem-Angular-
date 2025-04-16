@@ -154,7 +154,7 @@
             id="phoneNumber"
             [(ngModel)]="model.phoneNumber"
             name="phoneNumber"
-           pattern="^\d{10}$"
+            pattern="^\d{10}$"
             required
             #phoneNumber="ngModel"
           />
@@ -166,9 +166,9 @@
           <small *ngIf="phoneNumber.errors?.['required']"
             >Phone Number is required.</small
           >
-          <small *ngIf="phoneNumber.errors?.['pattern']">
-            Invalid format. Only numbers format is allowed.
-          </small>
+          <small *ngIf="phoneNumber.errors?.['pattern']"
+            >Invalid format. Only numbers format is allowed.</small
+          >
         </div>
       </div>
 
@@ -198,7 +198,7 @@
       </div>
 
       <!-- Joining Date -->
-      <div class="col-md-6" >
+      <div class="col-md-6" *ngIf="model">
         <label for="joiningDate" class="form-label fw-bold">
           <i class="pi pi-calendar me-1"></i>Joining Date
         </label>
@@ -207,7 +207,7 @@
           name="joiningDate"
           id="joiningDate"
           [showIcon]="true"
-          dateFormat="dd-mm-yy"
+          dateFormat="yyyy-mm-dd"
           [maxDate]="today"
           required
           class="w-100"
@@ -224,27 +224,56 @@
       </div>
 
       <!-- Profile Picture Upload -->
+      <!-- Profile Image Section -->
       <div class="col-md-12">
-        <label for="profileImage" class="form-label fw-bold">
+        <label class="form-label fw-bold">
           <i class="pi pi-image me-1"></i>Profile Picture
         </label>
-        <p-fileUpload
-          name="profileImage"
-          accept="image/*"
-          maxFileSize="5000000"
-          [auto]="false"
-          [customUpload]="false"
-          chooseLabel="Select Image"
-          (onSelect)="onFileSelect($event)"
-          class="w-100"
+
+        <div
+          *ngIf="previewImageUrl"
+          class="d-flex justify-content-start align-items-start my-3 position-relative"
         >
-          <ng-template pTemplate="content">
-            <div class="text-center">
-              <i class="pi pi-upload" style="font-size: 2rem"></i>
-              <p class="mt-2">Drag and drop or click to upload</p>
-            </div>
-          </ng-template>
-        </p-fileUpload>
+          <!-- Circular Image Preview -->
+          <div class="position-relative">
+            <img
+              [src]="previewImageUrl"
+              alt="Preview"
+              class="img-thumbnail shadow rounded-circle"
+              style="max-height: 200px; max-width: 200px"
+            />
+
+            <!-- Close Button (Top-right corner) -->
+            <button
+              type="button"
+              pButton
+              icon="pi pi-times"
+              class="p-button-danger p-button-rounded p-button-sm position-absolute top-0 end-0 m-2"
+              (click)="removePreviewImage()"
+            ></button>
+          </div>
+        </div>
+
+        <div *ngIf="!previewImageUrl" class="text-center mt-3">
+          <!-- File Upload Button (Only shown when no preview image) -->
+          <p-fileUpload
+            name="profileImage"
+            accept="image/*"
+            maxFileSize="5000000"
+            [auto]="false"
+            [customUpload]="false"
+            chooseLabel="Select Image"
+            (onSelect)="onFileSelect($event)"
+            class="w-100 shadow-sm"
+          >
+            <ng-template pTemplate="content">
+              <div class="text-center">
+                <i class="pi pi-upload" style="font-size: 2rem"></i>
+                <p class="mt-2">Drag and drop or click to upload</p>
+              </div>
+            </ng-template>
+          </p-fileUpload>
+        </div>
       </div>
 
       <!-- Activate Checkbox -->
@@ -258,7 +287,7 @@
         <label for="isActive" class="px-2 fw-bold">deactivate member</label>
       </div>
 
-      <!-- Buttons -->
+      <!-- Action Buttons -->
       <div class="text-center mt-5">
         <p-button
           label="{{ isEditMode ? 'Save Changes' : 'Add Member' }}"
@@ -278,5 +307,5 @@
       </div>
     </div>
   </div>
-
+  <p-toast position="top-right"></p-toast>
 </form>

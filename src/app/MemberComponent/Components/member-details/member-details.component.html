@@ -1,66 +1,80 @@
-<div *ngIf="member" class="card shadow-2xl p-4">
-  <h3 class="text-center mb-4">
-    <i class="pi pi-user mr-2"></i> Member Details
-  </h3>
-
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <p><strong>Full Name:</strong> {{ member.firstname }} {{ member.lastname }}</p>
+<div *ngIf="member" class=" shadow-2xl mb-4">
+  <div class="card-body pb-0">
+    <div class="row align-items-center mb-1">
+      <div class="col-md-4 text-center">
+        <img
+          *ngIf="member.memberImagePath"
+          [src]="member.memberImagePath"
+          alt="Profile Image"
+          class="img-fluid rounded-circle shadow-2xl mb-3 profile-image"
+          style="max-width: 100px; height: 100px"
+        />
+        <p *ngIf="!member.memberImagePath" class="text-muted">
+          <i class="pi pi-image"></i> No profile image available.
+        </p>
+      </div>
+      <div class="col-md-8 text-start">
+        <h4 class="text-primary">
+          {{ member.firstname }} {{ member.lastname }}
+        </h4>
+        <p class="text-muted">Age: {{ member.age }} | {{ member.gender }}</p>
+      </div>
     </div>
-    <div class="col-md-6">
-      <p><strong>Gender:</strong> {{ member.gender }}</p>
+
+    <!-- Member Info Section -->
+
+    <!-- Email & Phone Row -->
+    <div class="row">
+      <!-- Email -->
+      <div class="col-md-12 border-bottom pb-2">
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Email:</strong>
+          <span class="text-dark">{{ member.email }}</span>
+        </div>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="col-md-12 border-bottom pt-3 pb-2">
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Phone Number:</strong>
+          <span class="text-dark">{{ member.phoneNumber }}</span>
+        </div>
+      </div>
+
+      <!-- Subscription Plan -->
+      <div class="col-md-12 border-bottom pt-3 pb-2">
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Subscription Plan:</strong>
+          <span class="text-dark">{{ member.subscriptionPlanId }}</span>
+        </div>
+      </div>
+
+      <!-- Joining Date -->
+      <div class="col-md-12 border-bottom pt-3 pb-2">
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Joining Date:</strong>
+          <span class="text-dark">{{ member.joiningDate | date : "yyyy-MM-dd" }}</span>
+        </div>
+      </div>
+
+      <!-- Status Section -->
+      <div class="col-md-12 border-bottom pt-3 pb-2">
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Status:</strong>
+          <span
+            class="badge"
+            [ngClass]="member.isActive ? 'bg-danger' : 'bg-success'"
+          >
+            <i
+              class="pi"
+              [ngClass]="
+                member.isActive ? 'pi-times-circle' : 'pi-check-circle'
+              "
+            ></i>
+            {{ member.isActive ? "Inactive" : "Active" }}
+          </span>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <p><strong>Age:</strong> {{ member.age }}</p>
-    </div>
-    <div class="col-md-6">
-      <p><strong>Status:</strong> 
-        <span 
-          class="badge" 
-          [ngClass]="member.isActive ? 'bg-secondary' : 'bg-success'">
-          <i class="pi" [ngClass]="member.isActive ? 'pi-check-circle' : 'pi-times-circle'"></i>
-          {{ member.isActive ? 'IsActive' : 'Active' }}
-        </span>
-      </p>
-    </div>
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <p><strong>Subscription Plan:</strong> 
-        <span class="badge bg-primary">{{ member.subscriptionPlanId }}</span>
-      </p>
-    </div>
-    <div class="col-md-6">
-      <p><strong>Joining Date:</strong> {{ member.joiningDate | date: 'yyyy-MM-dd' }}</p>
-    </div>
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <p><strong>Email:</strong> {{ member.email }}</p>
-    </div>
-    <div class="col-md-6">
-      <p><strong>Phone Number:</strong> {{ member.phoneNumber }}</p>
-    </div>
-  </div>
-
-  <div class="text-center mt-4">
-    <p><strong>Profile Image:</strong></p>
-    <img
-      *ngIf="member.profileImageUrl"
-      [src]="member.profileImageUrl"
-      alt="Profile Image"
-      class="img-fluid rounded-circle shadow-2xl"
-      style="max-width: 200px; height: auto;"
-    />
-    <p *ngIf="!member.profileImageUrl" class="text-muted">
-      <i class="pi pi-image"></i> No profile image available.
-    </p>
-  </div>
-
-  
 </div>

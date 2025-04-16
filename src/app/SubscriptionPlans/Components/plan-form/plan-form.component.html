@@ -10,15 +10,15 @@
       ></p-button>
 
       <h2 class="text-center flex-grow-1">
-        {{ isEditMode ? 'Edit Plan' : 'Add New Plan' }}
+        {{ isEditMode ? "Edit Plan" : "Add New Plan" }}
       </h2>
 
-      <div style="width: 90px"></div> <!-- Placeholder -->
+      <div style="width: 90px"></div>
+      <!-- Placeholder -->
     </div>
 
     <!-- Form Fields -->
     <div class="row g-4">
-
       <!-- Plan Name -->
       <div class="col-md-6">
         <label for="planName" class="form-label fw-bold">
@@ -38,8 +38,12 @@
         />
         <small class="form-text text-muted">Enter a descriptive name.</small>
         <div *ngIf="planName.invalid && planName.touched" class="text-danger">
-          <div *ngIf="planName.errors?.['required']">Plan Name is required.</div>
-          <div *ngIf="planName.errors?.['minlength']">At least 3 characters.</div>
+          <div *ngIf="planName.errors?.['required']">
+            Plan Name is required.
+          </div>
+          <div *ngIf="planName.errors?.['minlength']">
+            At least 3 characters.
+          </div>
         </div>
       </div>
 
@@ -59,9 +63,16 @@
           min="1"
           #planPrice="ngModel"
         />
-        <div *ngIf="planPrice.invalid && planPrice.touched" class="text-danger">
-          <div *ngIf="planPrice.errors?.['required']">Price is required.</div>
-          <div *ngIf="planPrice.errors?.['min']">Price must be at least 1.</div>
+        <div *ngIf="planName.invalid && planName.touched" class="text-danger">
+          <div *ngIf="planName.errors?.['required']">
+            Plan Name is required.
+          </div>
+          <div *ngIf="planName.errors?.['minlength']">
+            At least 3 characters.
+          </div>
+          <div *ngIf="planName.errors?.['duplicate']">
+            A plan with this name already exists.
+          </div>
         </div>
       </div>
 
@@ -82,9 +93,16 @@
           #description="ngModel"
         ></textarea>
         <small class="form-text text-muted">At least 10 characters.</small>
-        <div *ngIf="description.invalid && description.touched" class="text-danger">
-          <div *ngIf="description.errors?.['required']">Description is required.</div>
-          <div *ngIf="description.errors?.['minlength']">Minimum 10 characters.</div>
+        <div
+          *ngIf="description.invalid && description.touched"
+          class="text-danger"
+        >
+          <div *ngIf="description.errors?.['required']">
+            Description is required.
+          </div>
+          <div *ngIf="description.errors?.['minlength']">
+            Minimum 10 characters.
+          </div>
         </div>
       </div>
 
@@ -103,7 +121,10 @@
           class="w-100"
           #planDuration="ngModel"
         ></p-dropdown>
-        <div *ngIf="planDuration.invalid && planDuration.touched" class="text-danger">
+        <div
+          *ngIf="planDuration.invalid && planDuration.touched"
+          class="text-danger"
+        >
           <small>Time Period is required.</small>
         </div>
       </div>
@@ -140,4 +161,5 @@
       ></p-button>
     </div>
   </div>
+  <p-toast position="top-right"></p-toast>
 </form>

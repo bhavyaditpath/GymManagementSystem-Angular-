@@ -19,6 +19,14 @@ export class PlansService {
     );
   }
 
+
+  getAllPlansIncludingDeleted(params?: any): Observable<subscriptionPlanModel[]> {
+    return this.apiService.getData<subscriptionPlanModel[]>(
+      `${this.endpoint}`,
+      params
+    );
+  }
+
   getPlanById(id: number): Observable<subscriptionPlanModel> {
     const fullUrl = `${this.endpoint}/${id}`;
     return this.apiService.getDataWithParams<subscriptionPlanModel>(

@@ -36,9 +36,10 @@ export class MemberListComponent implements OnInit {
   }
 
   loadSubscriptionPlans(): void {
-    this.plansService.getPlans().subscribe({
+    this.plansService.getAllPlansIncludingDeleted().subscribe({
       next: (plans) => {
         this.plans = plans;
+        console.log(this.plans);
       },
       error: (err) => {
         console.error('Error fetching subscription plans:', err);
@@ -64,11 +65,13 @@ export class MemberListComponent implements OnInit {
   }
 
   getSubscriptionPlanName(subscriptionPlanId: number): string {
+    if (!subscriptionPlanId) return 'No Plan';
     const plan = this.plans.find(
       (p) => p.subscriptionPlanId === subscriptionPlanId
     );
-    return plan && plan.planName ? plan.planName : 'N/A';
+    return plan?.planName || 'No Plan';
   }
+
 
   viewDetails(id: number): void {
     this.selectedMemberId = id;
@@ -97,7 +100,7 @@ export class MemberListComponent implements OnInit {
             this.MessageService.add({
               severity: 'success',
               summary: 'Deleted',
-              detail: ` member deleted successfully`,
+              detail: `member deleted successfully`,
             });
           },
           error: (err) => {
@@ -144,7 +147,7 @@ export class MemberListComponent implements OnInit {
     });
   }
 
-  isActivate(member: any): void {
+  isActivate(member: Member): void {
     const originalStatus = member.isActive;
     member.isActive = !member.isActive;
 
@@ -153,8 +156,8 @@ export class MemberListComponent implements OnInit {
         this.MessageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: `${member.firstname}${member.lastname} ${
-            member.isActive ? 'activated' : 'deactivated'
+          detail: `${member.firstname} ${member.lastname} ${
+            member.isActive ? 'deactivated' : 'activated'
           } successfully.`,
           life: 2000,
         });

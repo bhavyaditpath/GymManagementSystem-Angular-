@@ -82,16 +82,26 @@ export class PlanListComponent implements OnInit {
           },
           error: (err) => {
             console.error('Error deleting plan:', err);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Failed to delete plan',
-            });
+  
+            if (err.status === 409) {
+              this.messageService.add({
+                severity: 'warn',
+                summary: 'Cannot Delete',
+                detail: 'This plan is associated with active members, you can deactivate this plan instead',
+              });
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Failed to delete plan',
+              });
+            }
           },
         });
       },
     });
   }
+  
 
   toggleAction(event: Event, plan: subscriptionPlanModel, key: string) {
     const action = plan.isActive ? 'Activate' : 'Deactivate';
@@ -133,7 +143,7 @@ export class PlanListComponent implements OnInit {
           severity: 'success',
           summary: 'Success',
           detail: `Plan ${
-            plan.isActive ? 'activated' : 'deactivated'
+            plan.isActive ? 'deactivated' : 'activated'
           } successfully.`,
           life: 2000,
         });
@@ -145,7 +155,7 @@ export class PlanListComponent implements OnInit {
           severity: 'error',
           summary: 'Error',
           detail: `Failed to ${
-            plan.isActive ? 'deactivate' : 'activate'
+            plan.isActive ? 'activate' : 'deactivate'
           } the plan.`,
           life: 2000,
         });

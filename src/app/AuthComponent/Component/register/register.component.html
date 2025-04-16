@@ -1,9 +1,10 @@
-<div class="container d-flex justify-content-center align-items-center min-vh-100 bg-light">
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="row w-100 shadow-lg rounded-4 overflow-hidden bg-white" style="max-width: 850px;">
 
     <!-- Left Image -->
     <div class="col-md-6 d-none d-md-block p-0">
-      <img src="https://source.unsplash.com/800x600/?signup,fitness" alt="Register" class="img-fluid h-100 w-100" style="object-fit: cover;" />
+      <img src="../../../../../public/assets/guy-gym.jpg" alt="Register" class="img-fluid h-100 w-100"
+        style="object-fit: cover;" >
     </div>
 
     <!-- Form Section -->
@@ -14,45 +15,30 @@
       </div>
 
       <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
-        
+
         <!-- Username -->
         <div class="mb-4">
           <label for="username" class="form-label fw-semibold">Username</label>
-          <span class="p-input-icon-left w-100">
-            <i class="pi pi-user text-primary"></i>
-            <input
-              pInputText
-              type="text"
-              id="username"
-              name="username"
-              class="w-100"
-              placeholder="Enter your username"
-              [(ngModel)]="user.username"
-              #username="ngModel"
-              required
-            />
-          </span>
+          <div class="input-group w-100">
+            <span class="input-group-text p-0" style="border-right: none;">
+              <i class="pi pi-user text-primary p-2"></i>
+            </span>
+            <input pInputText type="text" id="username" name="username" class="form-control"
+              placeholder="Enter your username" [(ngModel)]="user.username" #username="ngModel" required />
+          </div>
           <small class="text-danger" *ngIf="username.invalid && username.touched">Username is required</small>
         </div>
 
         <!-- Email -->
         <div class="mb-4">
           <label for="email" class="form-label fw-semibold">Email</label>
-          <span class="p-input-icon-left w-100">
-            <i class="pi pi-envelope text-primary"></i>
-            <input
-              pInputText
-              type="email"
-              id="email"
-              name="email"
-              class="w-100"
-              placeholder="Enter your email"
-              [(ngModel)]="user.email"
-              #email="ngModel"
-              required
-              email
-            />
-          </span>
+          <div class="input-group w-100">
+            <span class="input-group-text p-0" style="border-right: none;">
+              <i class="pi pi-envelope text-primary p-2"></i>
+            </span>
+            <input pInputText type="email" id="email" name="email" class="form-control" placeholder="Enter your email"
+              [(ngModel)]="user.email" #email="ngModel" required email />
+          </div>
           <small class="text-danger" *ngIf="email.invalid && email.touched">
             <span *ngIf="email.errors?.['required']">Email is required</span>
             <span *ngIf="email.errors?.['email']">Enter a valid email address</span>
@@ -62,18 +48,13 @@
         <!-- Password -->
         <div class="mb-4">
           <label for="password" class="form-label fw-semibold">Password</label>
-          <p-password
-            [feedback]="false"
-            [toggleMask]="true"
-            id="password"
-            name="password"
-            placeholder="Enter password"
-            [(ngModel)]="user.password"
-            #password="ngModel"
-            required
-            minlength="6"
-            class="w-100"
-          ></p-password>
+          <div class="d-flex align-items-center border rounded px-2 w-100" style="height: 45px; ">
+            <i class="pi pi-lock text-primary me-2"></i>
+            <p-password [feedback]="false" [toggleMask]="true" id="password" name="password"
+              placeholder="Enter password" [(ngModel)]="user.password" #password="ngModel" required minlength="6"
+              class="flex-grow-1" [styleClass]="'w-100'">
+            </p-password>
+          </div>
           <small class="text-danger" *ngIf="password.invalid && password.touched">
             <span *ngIf="password.errors?.['required']">Password is required</span>
             <span *ngIf="password.errors?.['minlength']">Minimum 6 characters required</span>
@@ -83,32 +64,25 @@
         <!-- Confirm Password -->
         <div class="mb-4">
           <label for="confirmPassword" class="form-label fw-semibold">Confirm Password</label>
-          <p-password
-            [feedback]="false"
-            [toggleMask]="true"
-            id="confirmPassword"
-            name="confirmPassword"
-            placeholder="Confirm password"
-            [(ngModel)]="user.confirmPassword"
-            #confirmPassword="ngModel"
-            required
-            class="w-100"
-          ></p-password>
+          <div class="d-flex align-items-center border rounded px-2 w-100" style="height: 45px;">
+            <i class="pi pi-lock text-primary me-2"></i>
+            <p-password [feedback]="false" [toggleMask]="true" id="confirmPassword" name="confirmPassword"
+              placeholder="Confirm password" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" required
+              class="flex-grow-1 " [styleClass]="'w-100 '">
+            </p-password>
+          </div>
           <small class="text-danger" *ngIf="confirmPassword.invalid && confirmPassword.touched">
             Confirm Password is required
           </small>
         </div>
 
+
+
+
         <!-- Register Button -->
         <div class="d-grid mb-3">
-          <button
-            pButton
-            type="submit"
-            label="Register"
-            icon="pi pi-user-plus"
-            class="w-100 p-button-rounded p-button-primary fw-semibold"
-            [disabled]="registerForm.invalid"
-          ></button>
+          <button pButton type="submit" label="Register" icon="pi pi-user-plus"
+            class="w-100 p-button-rounded p-button-primary fw-semibold" [disabled]="registerForm.invalid"></button>
         </div>
       </form>
 

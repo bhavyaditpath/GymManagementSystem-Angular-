@@ -3,12 +3,14 @@ import { Observable } from 'rxjs';
 import { Member } from '../../Shared/Models/member.model';
 import { ApiService } from '../../Shared/ApiService/api.service';
 import { API_URLS } from '../../Shared/constants/apiurls.constant';
+import { subscriptionPlanModel } from '../../Shared/Models/plans.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MemberService {
   private readonly endpoint = API_URLS.memberUrl;
+
   constructor(private apiService: ApiService) {}
 
   getMembers(params?: any): Observable<Member[]> {
@@ -20,7 +22,7 @@ export class MemberService {
     const fullUrl = `${this.endpoint}/${id}`;
     return this.apiService.getDataWithParams<Member>(fullUrl, {});
   }
-
+  
   createMember(id:Number, member: Member): Observable<{member:Member, message:string}> {
     return this.apiService.postData<{member:Member, message:string}>(this.endpoint, member);
   }
@@ -48,8 +50,4 @@ export class MemberService {
     return this.apiService.postData<Member>(url, formData);
   }
 
-  getProfileImageUrl(memberId: number): Observable<string> {
-    const url = `${this.endpoint}/${memberId}/images`;
-    return this.apiService.getData<string>(url);
-  }
 }

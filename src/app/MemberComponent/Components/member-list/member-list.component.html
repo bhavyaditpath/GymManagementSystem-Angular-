@@ -4,7 +4,7 @@
     #dt
     [value]="members"
     [paginator]="true"
-    [rows]="5"
+    [rows]="10"
     [totalRecords]="totalRecords"
     (onLazyLoad)="loadMembers()"
     [globalFilterFields]="[
@@ -91,7 +91,7 @@
               [outlined]="true"
               (click)="editMember(member.memberId)"
             ></p-button>
-            <p-confirmPopup key="confirmDelete"></p-confirmPopup>
+           
             <p-button
               icon="pi pi-trash"
               severity="danger"
@@ -116,12 +116,12 @@
     </ng-template>
   </p-table>
 
-
+   <p-confirmDialog [style]="{ width: '450px' }"  key="confirmDelete"/>
   <p-dialog
     header="Member Details"
     [(visible)]="showDetailsDialog"
     [modal]="true"
-    [style]="{ width: '600px' }"
+    [style]="{ width: '450px' }"
     [closable]="true"
     [dismissableMask]="true"
   >

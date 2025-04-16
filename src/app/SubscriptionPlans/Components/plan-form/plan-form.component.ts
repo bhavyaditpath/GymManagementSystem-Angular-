@@ -3,6 +3,7 @@ import { subscriptionPlanModel } from '../../../Shared/Models/plans.model';
 import { PlansService } from '../../Services/plans.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-plan-form',
@@ -23,7 +24,8 @@ export class PlanFormComponent {
   constructor(
     private planService: PlansService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -51,35 +53,75 @@ export class PlanFormComponent {
       },
     });
   }
-
   onSubmit(form: NgForm): void {
     if (form.invalid) {
-      alert('Please fill out the form correctly.');
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation Error',
+        detail: 'Please fill out the form correctly.',
+      });
       return;
     }
+
     console.log('Form Submitted:', this.model);
+
     if (this.isEditMode) {
       this.planService
         .updatePlan(this.model.subscriptionPlanId!, this.model)
         .subscribe({
           next: () => {
-            alert('Plan updated successfully');
+            debugger
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Plan updated successfully',
+            });
             this.navigateToPlanList();
           },
           error: (err) => {
-            console.error('Error updating plan:', err);
-            alert('Failed to update plan.');
+            debugger
+            if (err.status === 500) {
+              this.messageService.add({
+                severity: 'warn',
+                summary: 'Duplicate Name',
+                detail: 'Plan with this name already exists.',
+              });
+              
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Failed to update plan.',
+              });
+            }
           },
         });
     } else {
       this.planService.createPlan(this.model).subscribe({
         next: () => {
-          alert('Plan created successfully');
+          debugger
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Plan created successfully',
+          });
           this.navigateToPlanList();
         },
         error: (err) => {
-          console.error('Error creating plan:', err);
-          alert('Failed to create plan.');
+          debugger
+          if (err.status === 409) {
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Duplicate Name',
+              detail: 'Plan with this name already exists.',
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to create plan.',
+            });
+          }
         },
       });
     }

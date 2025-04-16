@@ -1,4 +1,5 @@
 import { GenderEnum } from './GenderEnum.model';
+import { subscriptionPlanModel } from './plans.model';
 
 export class Member {
   memberId: number = 0;
@@ -6,12 +7,11 @@ export class Member {
   lastname?: string; // Added last name
   gender?: GenderEnum;
   age?: number;
-  subscriptionPlanId?: Number;
-  joiningDate?: Date;
+  subscriptionPlanId?: subscriptionPlanModel;
+  joiningDate?: Date = new Date();
   email?: string;
   phoneNumber: string = '';
   isActive: boolean = false;
-  profileImageUrl?: File;
   memberImagePath?: string;
   memberImageName?: string;
 

@@ -1,25 +1,31 @@
-.member-details {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-
-
-  background-color: #f9f9f9;
-}
-
-.member-details h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.member-details p {
-  margin: 10px 0;
-}
-
 .profile-image {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 10px 0;
-  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.05); /* Zoom effect on hover */
+}
+
+.card-body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card-header {
+  border-radius: 10px 10px 0 0;
+}
+
+.card-body p {
+  font-size: 1rem;
+}
+
+.badge {
+  font-size: 1rem;
+}
+
+.text-muted {
+  font-size: 0.95rem;
+}
+
+.text-center {
+  text-align: center;
 }
