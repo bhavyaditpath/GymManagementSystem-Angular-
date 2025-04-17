@@ -41,4 +41,5 @@ export class MemberDetailsComponent implements OnChanges {
       });
     }
   }
+  
 }

@@ -1,32 +1,47 @@
-<div class="container mt-5" style="max-width: 500px; margin: auto">
-  <h2 class="text-center mb-4">Plan Details</h2>
-
-  <div class="card border-0 shadow-sm">
-    <div class="card-header bg-light">
-      <h4 class="mb-0">{{ plan?.planName }}</h4>
+<div *ngIf="plan" class="shadow-2xl mb-4">
+  <div class="card-body pb-0">
+    <div class="row align-items-center mb-1">
+      <div class="col-md-12 text-start">
+        <h4 class="text-primary">
+          {{ plan.planName }}
+        </h4>
+        <p class="text-muted">Plan Duration: {{ plan.planDuration }}</p>
+      </div>
     </div>
 
-    <div class="card-body">
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <p class="mb-1"><strong>Price:</strong></p>
-          <p>{{ plan?.planPrice | currency }}</p>
+    <!-- Plan Info Section -->
+    <div class="row">
+      <!-- Price -->
+      <div class="col-md-12 border-bottom pb-2">
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Price:</strong>
+          <span class="text-dark">{{ plan.planPrice | currency }}</span>
         </div>
-        <div class="col-md-6">
-          <p class="mb-1"><strong>Time Period:</strong></p>
-          <p>{{ plan?.planDuration }}</p>
+      </div>
+
+      <!-- Description -->
+      <div class="col-md-12 border-bottom pt-3 pb-2">
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Description:</strong>
+          <span class="text-dark">{{ plan.description }}</span>
         </div>
-        <div class="col-md-6">
-          <p class="mb-1"><strong>Description:</strong></p>
-          <p>{{ plan?.description }}</p>
-        </div>
-        <div class="col-md-6">
-          <p class="mb-1"><strong>Status:</strong></p>
+      </div>
+
+      <!-- Status -->
+      <div class="col-md-12 pt-3 pb-2">
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Status:</strong>
           <span
             class="badge"
-            [ngClass]="plan?.isActive ? 'bg-danger' : 'bg-success'"
+            [ngClass]="plan.isActive ? 'bg-danger' : 'bg-success'"
           >
-            {{ plan?.isActive ? "InActive" : "Active" }}
+            <i
+              class="pi"
+              [ngClass]="
+                plan.isActive ? 'pi-times-circle' : 'pi-check-circle'
+              "
+            ></i>
+            {{ plan.isActive ? "Inactive" : "Active" }}
           </span>
         </div>
       </div>

@@ -20,7 +20,6 @@ export class MemberListComponent implements OnInit {
   globalFilter: string = '';
   showDetailsDialog: boolean = false;
   selectedMemberId!: number;
-  
 
   constructor(
     private memberService: MemberService,
@@ -52,8 +51,19 @@ export class MemberListComponent implements OnInit {
     this.memberService.getMembers().subscribe({
       next: (response: Member[]) => {
         console.log('API Response:', response);
-        this.members = response;
-        this.totalRecords = response.length;
+
+        this.members = response.map((member) => {
+          const plan = this.plans.find(
+            (p) => p.subscriptionPlanId === member.subscriptionPlanId
+          );
+          return {
+            ...member,
+            fullName: `${member.firstname} ${member.lastname}`,
+            subscriptionPlanName: plan?.planName || 'No Plan',
+          };
+        });
+
+        this.totalRecords = this.members.length;
         this.loading = false;
       },
       error: (err) => {
@@ -71,7 +81,6 @@ export class MemberListComponent implements OnInit {
     );
     return plan?.planName || 'No Plan';
   }
-
 
   viewDetails(id: number): void {
     this.selectedMemberId = id;

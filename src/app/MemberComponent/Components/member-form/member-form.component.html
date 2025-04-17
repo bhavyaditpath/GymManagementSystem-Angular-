@@ -198,32 +198,34 @@
       </div>
 
       <!-- Joining Date -->
-      <div class="col-md-6" *ngIf="model">
+      <div class="col-md-6" *ngIf="model && model.joiningDate">
         <label for="joiningDate" class="form-label fw-bold">
           <i class="pi pi-calendar me-1"></i>Joining Date
         </label>
+      
         <p-calendar
           [(ngModel)]="model.joiningDate"
+          [maxDate]="today"
+          dateFormat="yy-mm-dd"
+          showIcon="true"
+          placeholder="Select Joining Date"
           name="joiningDate"
           id="joiningDate"
-          [showIcon]="true"
-          dateFormat="yyyy-mm-dd"
-          [maxDate]="today"
           required
-          class="w-100"
           #joiningDate="ngModel"
         ></p-calendar>
+      
         <div
           *ngIf="joiningDate.invalid && joiningDate.touched"
           class="text-danger"
         >
-          <small *ngIf="joiningDate.errors?.['required']"
-            >Joining date is required.</small
-          >
+          <small *ngIf="joiningDate.errors?.['required']">
+            Joining date is required.
+          </small>
         </div>
       </div>
+      
 
-      <!-- Profile Picture Upload -->
       <!-- Profile Image Section -->
       <div class="col-md-12">
         <label class="form-label fw-bold">

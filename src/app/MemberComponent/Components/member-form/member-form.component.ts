@@ -43,10 +43,14 @@ export class MemberFormComponent implements OnInit {
     const memberId = this.route.snapshot.params['id'];
     this.loadSubscriptionPlans();
 
-    if (memberId) {
-      this.isEditMode = true;
-      this.loadMemberById(memberId);
-    }
+   if (!memberId) {
+     this.model.joiningDate = new Date();
+   }
+
+   if (memberId) {
+     this.isEditMode = true;
+     this.loadMemberById(memberId);
+   }
   }
 
   private loadMemberById(id: number): void {
@@ -111,6 +115,16 @@ export class MemberFormComponent implements OnInit {
 
   onSubmit(form: NgForm): void {
     if (!this.validateForm(form)) return;
+
+      if (this.model.joiningDate) {
+        const localDate = new Date(this.model.joiningDate);
+        localDate.setHours(0, 0, 0, 0);
+        const year = localDate.getFullYear();
+        const month = localDate.getMonth();
+        const day = localDate.getDate();
+        this.model.joiningDate = new Date(Date.UTC(year, month, day));
+      }
+
     if (this.isEditMode) {
       this.previewImageUrl = this.apiService.getImageUrl(
         this.model.memberImagePath ?? ''

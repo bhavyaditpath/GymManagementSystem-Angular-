@@ -7,16 +7,13 @@
     [rows]="10"
     [totalRecords]="totalRecords"
     (onLazyLoad)="loadMembers()"
-    [globalFilterFields]="[
-      'firstName',
-      'lastName',
-    ]"
+    [globalFilterFields]="['fullName', 'email', 'subscriptionPlanName']"
     [responsiveLayout]="'scroll'"
     [resizableColumns]="true"
     [reorderableColumns]="true"
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    class="table table-hover"
+    class="table table-hover center-header"
   >
     <ng-template #caption>
       <div class="d-flex justify-content-between align-items-center">
@@ -44,8 +41,8 @@
     <!-- Table Header -->
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="firstName">
-          Full Name <p-sortIcon field="firstName"></p-sortIcon>
+        <th pSortableColumn="fullName">
+          Full Name <p-sortIcon field="fullName"></p-sortIcon>
         </th>
         <th pSortableColumn="gender">
           Gender <p-sortIcon field="gender"></p-sortIcon>
@@ -66,10 +63,10 @@
     <!-- Table Body -->
     <ng-template pTemplate="body" let-member>
       <tr>
-        <td>{{ member.firstname }} {{ member.lastname }}</td>
+        <td>{{ member.fullName }}</td>
         <td>{{ member.gender }}</td>
         <td>{{ member.age }}</td>
-        <td>{{ getSubscriptionPlanName(member.subscriptionPlanId) }}</td>
+        <td>{{ member.subscriptionPlanName }}</td>
         <td>{{ member.email }}</td>
         <td>
           <p-toast></p-toast>
@@ -91,7 +88,7 @@
               [outlined]="true"
               (click)="editMember(member.memberId)"
             ></p-button>
-           
+
             <p-button
               icon="pi pi-trash"
               severity="danger"
@@ -111,12 +108,10 @@
           </div>
         </td>
       </tr>
-  
-
     </ng-template>
   </p-table>
 
-   <p-confirmDialog [style]="{ width: '450px' }"  key="confirmDelete"/>
+  <p-confirmDialog [style]="{ width: '450px' }" key="confirmDelete" />
   <p-dialog
     header="Member Details"
     [(visible)]="showDetailsDialog"

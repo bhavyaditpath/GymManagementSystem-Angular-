@@ -1,10 +1,11 @@
+<p-toast position="top-center"></p-toast>
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="row w-100 shadow-lg rounded-4 overflow-hidden bg-white" style="max-width: 850px;">
 
     <!-- Left Image -->
     <div class="col-md-6 d-none d-md-block p-0">
-      <img src="../../../../../public/assets/guy-gym.jpg" alt="Register" class="img-fluid h-100 w-100"
-        style="object-fit: cover;" >
+      <img src="assets/guy-gym.jpg" alt="Register" class="img-fluid h-100 w-100"
+        style="object-fit: cover;">
     </div>
 
     <!-- Form Section -->
@@ -62,23 +63,25 @@
         </div>
 
         <!-- Confirm Password -->
+        <!-- Confirm Password -->
         <div class="mb-4">
           <label for="confirmPassword" class="form-label fw-semibold">Confirm Password</label>
           <div class="d-flex align-items-center border rounded px-2 w-100" style="height: 45px;">
             <i class="pi pi-lock text-primary me-2"></i>
             <p-password [feedback]="false" [toggleMask]="true" id="confirmPassword" name="confirmPassword"
               placeholder="Confirm password" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" required
-              class="flex-grow-1 " [styleClass]="'w-100 '">
+              class="flex-grow-1" [styleClass]="'w-100'">
             </p-password>
           </div>
+
+          <!-- Validation Errors -->
           <small class="text-danger" *ngIf="confirmPassword.invalid && confirmPassword.touched">
             Confirm Password is required
           </small>
+          <small class="text-danger" *ngIf="passwordMismatch && confirmPassword.touched">
+            Password and Confirm Password must match
+          </small>
         </div>
-
-
-
-
         <!-- Register Button -->
         <div class="d-grid mb-3">
           <button pButton type="submit" label="Register" icon="pi pi-user-plus"

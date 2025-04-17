@@ -8,11 +8,12 @@
     [paginator]="true"
     [rows]="5"
     [totalRecords]="totalRecords"
-    [globalFilterFields]="['planName', 'description', 'timePeriod']"
+    [globalFilterFields]="['planName', 'description', 'timePeriod', 'price']"
     [resizableColumns]="true"
     [reorderableColumns]="true"
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    class="table table-hover center-header"
   >
   <ng-template #caption>
         <div class="d-flex justify-content-between align-items-center">
@@ -42,11 +43,11 @@
         <th pSortableColumn="planName">
           Plan Name <p-sortIcon field="planName"></p-sortIcon>
         </th>
-        <th pSortableColumn="price">
-          Price <p-sortIcon field="price"></p-sortIcon>
+        <th pSortableColumn="planPrice">
+          Price <p-sortIcon field="planPrice"></p-sortIcon>
         </th>
-        <th pSortableColumn="timePeriod">
-          Time Period <p-sortIcon field="timePeriod"></p-sortIcon>
+        <th pSortableColumn="planDuration">
+          Time Period <p-sortIcon field="planDuration"></p-sortIcon>
         </th>
         <th pSortableColumn="description">
           Description <p-sortIcon field="description"></p-sortIcon>
@@ -109,7 +110,7 @@
   header="Plan Details"
   [(visible)]="displayDetailDialog"
   [modal]="true"
-  [style]="{ width: '600px' }"
+  [style]="{ width: '450px' }"
   [dismissableMask]="true"
   [closable]="true"
  
