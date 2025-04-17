@@ -1,100 +1,187 @@
 <p-toast position="top-center"></p-toast>
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-  <div class="row w-100 shadow-lg rounded-4 overflow-hidden bg-white" style="max-width: 850px;">
 
-    <!-- Left Image -->
-    <div class="col-md-6 d-none d-md-block p-0">
-      <img src="assets/guy-gym.jpg" alt="Register" class="img-fluid h-100 w-100"
-        style="object-fit: cover;">
-    </div>
+<!-- Outer Container -->
+<div class="w-100 min-vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div class="row w-100" style="max-width: 1200px">
 
-    <!-- Form Section -->
-    <div class="col-md-6 p-5">
-      <div class="text-center mb-4">
-        <h2 class="fw-bold text-primary">Create Account</h2>
-        <p class="text-muted">Join our fitness community</p>
+    <!-- Left Image Section -->
+    <div class="col-md-6 d-none d-md-block p-0 position-relative animate__animated animate__fadeInLeft">
+      <img
+        src="/assets/register.jpg"
+        alt="Register"
+        class="img-fluid h-100 w-100 object-fit-cover"
+      />
+
+      <!-- Overlay Content -->
+      <div
+        class="position-absolute top-50 start-50 translate-middle text-center text-white px-4 animate__animated animate__fadeInUp animate__delay-1s"
+        style="z-index: 1"
+      >
+        <!-- Logo -->
+        <img src="/assets/logo.png" alt="GymPro Logo" class="mb-3" style="height: 60px;" />
+
+        <!-- Text -->
+        <h3 class="fw-bold fs-2">Welcome to GymPro</h3>
+        <p class="small mb-2">Unleash your potential with every rep</p>
+        <p class="small d-none d-md-block">
+          Join our fitness community today and take the first step toward your transformation.
+          Sign up to access personalized plans, expert guidance, and more.
+        </p>
       </div>
 
-      <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+      <!-- Optional gradient overlay -->
+      <!-- <div class="position-absolute top-0 start-0 w-100 h-100 gradient-overlay"></div> -->
+    </div>
 
-        <!-- Username -->
-        <div class="mb-4">
-          <label for="username" class="form-label fw-semibold">Username</label>
-          <div class="input-group w-100">
-            <span class="input-group-text p-0" style="border-right: none;">
-              <i class="pi pi-user text-primary p-2"></i>
-            </span>
-            <input pInputText type="text" id="username" name="username" class="form-control"
-              placeholder="Enter your username" [(ngModel)]="user.username" #username="ngModel" required />
+    <!-- Right Form Section -->
+    <div class="col-md-6 px-4 py-5 animate__animated animate__fadeInRight animate__delay-1s">
+      <div class="w-100" style="max-width: 480px; margin: 0 auto">
+
+        <!-- Header -->
+        <div class="text-center mb-4">
+          <!-- Logo for small screens -->
+          <img src="/assets/logo.png" alt="GymPro Logo" class="mb-2 d-md-none" style="height: 50px;" />
+          <h2 class="fw-bold text-dark mb-1">Create Your Account</h2>
+          <p class="text-muted small mb-0">Start your fitness journey with us today</p>
+        </div>
+
+        <!-- Register Form -->
+        <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)" novalidate>
+
+          <!-- Username -->
+       <!-- Username -->
+<div class="mb-4">
+  <label for="username" class="form-label fw-semibold">
+    Username <sup class="text-danger">*</sup>
+  </label>
+  <div class="input-group custom-input-group">
+    <span class="input-group-text bg-white border-end-0">
+      <i class="pi pi-user text-primary"></i>
+    </span>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      pInputText
+      class="form-control border-start-0"
+      placeholder="Enter username"
+      [(ngModel)]="user.username"
+      #username="ngModel"
+      required
+    />
+  </div>
+  <small class="text-danger" *ngIf="username.invalid && username.touched">
+    Username is required
+  </small>
+</div>
+
+<!-- Email -->
+<div class="mb-4">
+  <label for="email" class="form-label fw-semibold">
+    Email <sup class="text-danger">*</sup>
+  </label>
+  <div class="input-group custom-input-group">
+    <span class="input-group-text bg-white border-end-0">
+      <i class="pi pi-envelope text-primary"></i>
+    </span>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      pInputText
+      class="form-control border-start-0"
+      placeholder="Enter email"
+      [(ngModel)]="user.email"
+      #email="ngModel"
+      required
+      email
+    />
+  </div>
+  <small class="text-danger" *ngIf="email.invalid && email.touched">
+    <span *ngIf="email.errors?.['required']">Email is required</span>
+    <span *ngIf="email.errors?.['email']">Invalid email format</span>
+  </small>
+</div>
+
+<!-- Password -->
+<div class="mb-4">
+  <label for="password" class="form-label fw-semibold">
+    Password <sup class="text-danger">*</sup>
+  </label>
+  <div class="input-group custom-input-group">
+    <span class="input-group-text bg-white border-end-0">
+      <i class="pi pi-lock text-primary"></i>
+    </span>
+    <p-password
+      id="password"
+      name="password"
+      [(ngModel)]="user.password"
+      #password="ngModel"
+      [feedback]="false"
+      [toggleMask]="true"
+      placeholder="Enter password"
+      required
+      minlength="6"
+      class="form-control border-start-0 p-0"
+    ></p-password>
+  </div>
+  <small class="text-danger" *ngIf="password.invalid && password.touched">
+    <span *ngIf="password.errors?.['required']">Password is required</span>
+    <span *ngIf="password.errors?.['minlength']">At least 6 characters</span>
+  </small>
+</div>
+
+<!-- Confirm Password -->
+<div class="mb-4">
+  <label for="confirmPassword" class="form-label fw-semibold">
+    Confirm Password <sup class="text-danger">*</sup>
+  </label>
+  <div class="input-group custom-input-group">
+    <span class="input-group-text bg-white border-end-0">
+      <i class="pi pi-lock text-primary"></i>
+    </span>
+    <p-password
+      id="confirmPassword"
+      name="confirmPassword"
+      [(ngModel)]="user.confirmPassword"
+      #confirmPassword="ngModel"
+      [feedback]="false"
+      [toggleMask]="true"
+      placeholder="Confirm password"
+      required
+      class="form-control border-start-0 p-0"
+    ></p-password>
+  </div>
+  <small class="text-danger" *ngIf="confirmPassword.invalid && confirmPassword.touched">
+    Confirm password is required
+  </small>
+  <small class="text-danger" *ngIf="passwordMismatch && confirmPassword.touched">
+    Passwords do not match
+  </small>
+</div>
+
+
+          <!-- Submit Button -->
+          <div class="d-grid mb-3">
+            <button
+              pButton
+              type="submit"
+              label="Register"
+              icon="pi pi-user-plus"
+              class="p-button p-button-primary p-button-rounded fw-semibold"
+              [disabled]="registerForm.invalid"
+            ></button>
           </div>
-          <small class="text-danger" *ngIf="username.invalid && username.touched">Username is required</small>
-        </div>
+        </form>
 
-        <!-- Email -->
-        <div class="mb-4">
-          <label for="email" class="form-label fw-semibold">Email</label>
-          <div class="input-group w-100">
-            <span class="input-group-text p-0" style="border-right: none;">
-              <i class="pi pi-envelope text-primary p-2"></i>
-            </span>
-            <input pInputText type="email" id="email" name="email" class="form-control" placeholder="Enter your email"
-              [(ngModel)]="user.email" #email="ngModel" required email />
-          </div>
-          <small class="text-danger" *ngIf="email.invalid && email.touched">
-            <span *ngIf="email.errors?.['required']">Email is required</span>
-            <span *ngIf="email.errors?.['email']">Enter a valid email address</span>
-          </small>
+        <!-- Already Registered -->
+        <div class="text-center mt-3">
+          <span class="text-muted small">Already have an account?</span>
+          <a
+            routerLink="/auth/login"
+            class="text-primary text-decoration-none fw-medium"
+          >Login here</a>
         </div>
-
-        <!-- Password -->
-        <div class="mb-4">
-          <label for="password" class="form-label fw-semibold">Password</label>
-          <div class="d-flex align-items-center border rounded px-2 w-100" style="height: 45px; ">
-            <i class="pi pi-lock text-primary me-2"></i>
-            <p-password [feedback]="false" [toggleMask]="true" id="password" name="password"
-              placeholder="Enter password" [(ngModel)]="user.password" #password="ngModel" required minlength="6"
-              class="flex-grow-1" [styleClass]="'w-100'">
-            </p-password>
-          </div>
-          <small class="text-danger" *ngIf="password.invalid && password.touched">
-            <span *ngIf="password.errors?.['required']">Password is required</span>
-            <span *ngIf="password.errors?.['minlength']">Minimum 6 characters required</span>
-          </small>
-        </div>
-
-        <!-- Confirm Password -->
-        <!-- Confirm Password -->
-        <div class="mb-4">
-          <label for="confirmPassword" class="form-label fw-semibold">Confirm Password</label>
-          <div class="d-flex align-items-center border rounded px-2 w-100" style="height: 45px;">
-            <i class="pi pi-lock text-primary me-2"></i>
-            <p-password [feedback]="false" [toggleMask]="true" id="confirmPassword" name="confirmPassword"
-              placeholder="Confirm password" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" required
-              class="flex-grow-1" [styleClass]="'w-100'">
-            </p-password>
-          </div>
-
-          <!-- Validation Errors -->
-          <small class="text-danger" *ngIf="confirmPassword.invalid && confirmPassword.touched">
-            Confirm Password is required
-          </small>
-          <small class="text-danger" *ngIf="passwordMismatch && confirmPassword.touched">
-            Password and Confirm Password must match
-          </small>
-        </div>
-        <!-- Register Button -->
-        <div class="d-grid mb-3">
-          <button pButton type="submit" label="Register" icon="pi pi-user-plus"
-            class="w-100 p-button-rounded p-button-primary fw-semibold" [disabled]="registerForm.invalid"></button>
-        </div>
-      </form>
-
-      <!-- Login Redirect -->
-      <div class="text-center mt-3">
-        <p class="mb-0 text-muted">
-          Already have an account?
-          <a routerLink="/auth/login" class="text-primary fw-semibold text-decoration-none">Login here</a>
-        </p>
       </div>
     </div>
   </div>

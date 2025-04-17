@@ -155,7 +155,6 @@ export class MemberListComponent implements OnInit {
       },
     });
   }
-
   isActivate(member: Member): void {
     const originalStatus = member.isActive;
     member.isActive = !member.isActive;
@@ -166,7 +165,7 @@ export class MemberListComponent implements OnInit {
           severity: 'success',
           summary: 'Success',
           detail: `${member.firstname} ${member.lastname} ${
-            member.isActive ? 'deactivated' : 'activated'
+            member.isActive ? 'activated' : 'deactivated'
           } successfully.`,
           life: 2000,
         });
@@ -177,9 +176,9 @@ export class MemberListComponent implements OnInit {
         this.MessageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: `Failed to ${member.isActive ? 'deactivate' : 'activate'} ${
+          detail: `Failed to ${member.isActive ? 'activate' : 'deactivate'} ${
             member.firstname
-          }${member.lastname}.`,
+          } ${member.lastname}.`,
           life: 2000,
         });
       },

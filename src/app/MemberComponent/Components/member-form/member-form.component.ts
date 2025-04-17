@@ -43,14 +43,14 @@ export class MemberFormComponent implements OnInit {
     const memberId = this.route.snapshot.params['id'];
     this.loadSubscriptionPlans();
 
-   if (!memberId) {
-     this.model.joiningDate = new Date();
-   }
+    if (!memberId) {
+      this.model.joiningDate = new Date();
+    }
 
-   if (memberId) {
-     this.isEditMode = true;
-     this.loadMemberById(memberId);
-   }
+    if (memberId) {
+      this.isEditMode = true;
+      this.loadMemberById(memberId);
+    }
   }
 
   private loadMemberById(id: number): void {
@@ -116,42 +116,35 @@ export class MemberFormComponent implements OnInit {
   onSubmit(form: NgForm): void {
     if (!this.validateForm(form)) return;
 
-      if (this.model.joiningDate) {
-        const localDate = new Date(this.model.joiningDate);
-        localDate.setHours(0, 0, 0, 0);
-        const year = localDate.getFullYear();
-        const month = localDate.getMonth();
-        const day = localDate.getDate();
-        this.model.joiningDate = new Date(Date.UTC(year, month, day));
-      }
+    if (this.model.joiningDate) {
+      const localDate = new Date(this.model.joiningDate);
+      localDate.setHours(0, 0, 0, 0);
+      const year = localDate.getFullYear();
+      const month = localDate.getMonth();
+      const day = localDate.getDate();
+      this.model.joiningDate = new Date(Date.UTC(year, month, day));
+    }
 
     if (this.isEditMode) {
-      this.previewImageUrl = this.apiService.getImageUrl(
-        this.model.memberImagePath ?? ''
-      );
-      console.log(this.previewImageUrl);
-
       this.memberService
         .updateMember(this.model.memberId!, this.model)
         .subscribe({
-          next: () => {
+          next: (response) => {
+            // Optional: Update model with response data if returned
+            this.model.memberImagePath =
+              response?.memberImagePath ?? this.model.memberImagePath;
+            this.previewImageUrl = this.apiService.getImageUrl(
+              this.model.memberImagePath ?? ''
+            );
             this.handleImageUpload(this.model.memberId!, this.selectedFile);
           },
           error: (err) => {
             console.error('Error updating member:', err);
-            if (err.status === 500) {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Failed to update member.',
-              });
-            } else {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Failed to update member.',
-              });
-            }
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to update member.',
+            });
           },
         });
     } else {
@@ -160,6 +153,10 @@ export class MemberFormComponent implements OnInit {
         .subscribe({
           next: (data) => {
             if (data?.member?.memberId) {
+              this.model.memberImagePath = data.member.memberImagePath ?? '';
+              this.previewImageUrl = this.apiService.getImageUrl(
+                this.model.memberImagePath
+              );
               this.handleImageUpload(data.member.memberId, this.selectedFile);
             } else {
               this.messageService.add({
@@ -184,9 +181,11 @@ export class MemberFormComponent implements OnInit {
         });
     }
   }
-
+  // getting image null here
   private handleImageUpload(memberId: number, imageFile: File | null): void {
+    debugger;
     if (imageFile) {
+      debugger;
       this.memberService.uploadProfileImage(memberId, imageFile).subscribe({
         next: () => {
           this.messageService.add({

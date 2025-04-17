@@ -49,5 +49,5 @@ export class MemberService {
     console.log('Uploading image with formData:', url, formData);
     return this.apiService.postData<Member>(url, formData);
   }
-
+  
 }

@@ -21,7 +21,7 @@
       <!-- First Name -->
       <div class="col-md-6">
         <label for="firstName" class="form-label fw-bold">
-          <i class="pi pi-user me-1"></i>First Name
+          <i class="pi pi-user me-1"></i>First Name <sup class="text-danger">*</sup>
         </label>
         <input
           type="text"
@@ -33,6 +33,7 @@
           required
           minlength="3"
           #firstName="ngModel"
+          pattern="^(?!\s)(?!.*\s$).*"
           autofocus
         />
         <small class="form-text text-muted">At least 3 characters.</small>
@@ -43,13 +44,16 @@
           <div *ngIf="firstName.errors?.['minlength']">
             Must be at least 3 characters.
           </div>
+          <div *ngIf="firstName.errors?.['pattern']">
+            Invalid format. First name cannot have leading or trailing spaces.
+          </div>
         </div>
       </div>
 
       <!-- Last Name -->
       <div class="col-md-6">
         <label for="lastName" class="form-label fw-bold">
-          <i class="pi pi-user me-1"></i>Last Name
+          <i class="pi pi-user me-1"></i>Last Name <sup class="text-danger">*</sup>
         </label>
         <input
           type="text"
@@ -61,6 +65,7 @@
           required
           minlength="3"
           #lastName="ngModel"
+          pattern="^(?!\s)(?!.*\s$).*"
         />
         <small class="form-text text-muted">At least 3 characters.</small>
         <div *ngIf="lastName.invalid && lastName.touched" class="text-danger">
@@ -70,13 +75,16 @@
           <div *ngIf="lastName.errors?.['minlength']">
             Must be at least 3 characters.
           </div>
+          <div *ngIf="lastName.errors?.['pattern']">
+            Invalid format. Last name cannot have leading or trailing spaces.
+          </div>
         </div>
       </div>
 
       <!-- Gender -->
       <div class="col-md-6">
         <label class="form-label fw-bold">
-          <i class="pi pi-users me-1"></i>Gender
+          <i class="pi pi-users me-1"></i>Gender <sup class="text-danger">*</sup>
         </label>
         <p-select
           [(ngModel)]="model.gender"
@@ -97,7 +105,7 @@
       <!-- Age -->
       <div class="col-md-6">
         <label for="age" class="form-label fw-bold">
-          <i class="pi pi-calendar me-1"></i>Age
+          <i class="pi pi-calendar me-1"></i>Age <sup class="text-danger">*</sup>
         </label>
         <input
           type="number"
@@ -121,7 +129,7 @@
       <!-- Email -->
       <div class="col-md-6">
         <label for="email" class="form-label fw-bold">
-          <i class="pi pi-envelope me-1"></i>Email
+          <i class="pi pi-envelope me-1"></i>Email <sup class="text-danger">*</sup>
         </label>
         <input
           type="email"
@@ -132,11 +140,15 @@
           name="email"
           required
           #email="ngModel"
+          pattern="^(?!\s)(?!.*\s$).*"
         />
         <div *ngIf="email.invalid && email.touched" class="text-danger">
           <div *ngIf="email.errors?.['required']">Email is required.</div>
           <div *ngIf="email.errors?.['email']">
             Enter a valid email address.
+          </div>
+          <div *ngIf="email.errors?.['pattern']">
+            Invalid format. Email cannot have leading or trailing spaces.
           </div>
         </div>
       </div>
@@ -144,7 +156,7 @@
       <!-- Phone Number -->
       <div class="col-md-6">
         <label for="phoneNumber" class="form-label fw-bold">
-          <i class="pi pi-phone me-1"></i>Phone Number
+          <i class="pi pi-phone me-1"></i>Phone Number <sup class="text-danger">*</sup>
         </label>
         <div class="input-group">
           <input
@@ -175,7 +187,7 @@
       <!-- Subscription Plan -->
       <div class="col-md-6">
         <label for="subscriptionPlanId" class="form-label fw-bold">
-          <i class="pi pi-tags me-1"></i>Subscription Plan
+          <i class="pi pi-tags me-1"></i>Subscription Plan <sup class="text-danger">*</sup>
         </label>
         <p-dropdown
           id="subscriptionPlanId"
@@ -200,9 +212,9 @@
       <!-- Joining Date -->
       <div class="col-md-6" *ngIf="model && model.joiningDate">
         <label for="joiningDate" class="form-label fw-bold">
-          <i class="pi pi-calendar me-1"></i>Joining Date
+          <i class="pi pi-calendar me-1"></i>Joining Date <sup class="text-danger">*</sup>
         </label>
-      
+
         <p-calendar
           [(ngModel)]="model.joiningDate"
           [maxDate]="today"
@@ -214,7 +226,7 @@
           required
           #joiningDate="ngModel"
         ></p-calendar>
-      
+
         <div
           *ngIf="joiningDate.invalid && joiningDate.touched"
           class="text-danger"
@@ -224,7 +236,6 @@
           </small>
         </div>
       </div>
-      
 
       <!-- Profile Image Section -->
       <div class="col-md-12">
@@ -262,8 +273,9 @@
             name="profileImage"
             accept="image/*"
             maxFileSize="5000000"
+            [showUploadButton]="false"
+            [customUpload]="true"
             [auto]="false"
-            [customUpload]="false"
             chooseLabel="Select Image"
             (onSelect)="onFileSelect($event)"
             class="w-100 shadow-sm"
@@ -302,12 +314,10 @@
         <p-button
           label="Reset"
           icon="pi pi-refresh"
-          type="reset"
-          class="px-4"
+          class="p-button-text px-4"
           (click)="newMemberForm.resetForm()"
         ></p-button>
       </div>
     </div>
   </div>
-  <p-toast position="top-right"></p-toast>
 </form>

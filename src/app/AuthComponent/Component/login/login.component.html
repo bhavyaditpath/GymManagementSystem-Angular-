@@ -1,92 +1,118 @@
 <p-toast position="top-center"></p-toast>
-<div class="container d-flex justify-content-center align-items-center vh-100 ">
-  <div class="row w-100 shadow-lg rounded-4 overflow-hidden" style="max-width: 850px; background-color: #ffffff;">
+
+<!-- Outer Container -->
+<div class="w-100 min-vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div class="row w-100 shadow-lg rounded-4 overflow-hidden" style="max-width: 900px; background-color: #ffffff;">
 
     <!-- Left Image Section -->
-    <div class="col-md-6 d-none d-md-block p-0">
-      <img src="assets/images/login-illustration.jpg" alt="Login" class="img-fluid h-100 w-100" style="object-fit: cover;" />
+    <div class="col-md-6 d-none d-md-block p-0 position-relative animate__animated animate__fadeInLeft">
+      <img
+        src="/assets/register.jpg"
+        alt="Login"
+        class="img-fluid h-100 w-100 object-fit-cover"
+      />
+
+      <!-- Centered Overlay Text -->
+      <div class="position-absolute top-50 start-50 translate-middle text-center text-white px-3">
+        <img src="/assets/images/logo.png" alt="Logo" class="img-fluid mb-3" style="width: 120px;" />
+        <h3 class="fw-bold fs-2">Welcome Back</h3>
+        <p class="small mb-2">Log in and continue your fitness journey</p>
+        <p class="small d-none d-md-block">
+          Stay on track with your progress and manage your personalized plans anytime, anywhere.
+        </p>
+      </div>
     </div>
 
-    <!-- Login Form Section -->
-    <div class="col-md-6 p-5">
-      <div class="text-center mb-4">
-        <h2 class="fw-bold text-primary">Welcome Back</h2>
-        <p class="text-muted mb-0">Please login to your account</p>
-      </div>
+    <!-- Right Form Section -->
+    <div class="col-md-6 px-4 py-5 animate__animated animate__fadeInRight animate__delay-1s">
+      <div class="w-100" style="max-width: 420px; margin: 0 auto">
 
-      <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
-        
-        <!-- Email -->
-        <div class="mb-4">
-          <label for="email" class="form-label fw-semibold">Email</label>
-          <div class="input-group">
-            <span class="input-group-text bg-white border-end-0">
-              <i class="pi pi-envelope text-primary"></i>
-            </span>
-            <input
-              pInputText
-              type="email"
-              id="email"
-              name="email"
-              class="form-control border-start-0"
-              placeholder="Enter your email"
-              required
-              [(ngModel)]="model.email"
-              #email="ngModel"
-            />
+        <!-- Header -->
+        <div class="text-center mb-4">
+          <img src="/assets/images/logo.png" alt="Logo" class="img-fluid mb-3" style="width: 80px;" />
+          <h2 class="fw-bold text-dark mb-1">Login to GymPro</h2>
+          <p class="text-muted small mb-0">Please enter your credentials</p>
+        </div>
+
+        <!-- Login Form -->
+        <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" novalidate>
+
+         <!-- Email -->
+<div class="mb-4">
+  <label for="email" class="form-label fw-semibold">
+    Email <sup class="text-danger">*</sup>
+  </label>
+  <div class="input-group custom-input-group">
+    <span class="input-group-text bg-white border-end-0">
+      <i class="pi pi-envelope text-primary"></i>
+    </span>
+    <input
+      pInputText
+      type="email"
+      id="email"
+      name="email"
+      class="form-control border-start-0"
+      placeholder="Enter your email"
+      required
+      [(ngModel)]="model.email"
+      #email="ngModel"
+    />
+  </div>
+  <small class="text-danger" *ngIf="email.invalid && email.touched">
+    <span *ngIf="email.errors?.['required']">Email is required</span>
+    <span *ngIf="email.errors?.['email']">Enter a valid email</span>
+  </small>
+</div>
+
+<!-- Password -->
+<div class="mb-4">
+  <label for="password" class="form-label fw-semibold">
+    Password <sup class="text-danger">*</sup>
+  </label>
+  <div class="input-group custom-input-group">
+    <span class="input-group-text bg-white border-end-0">
+      <i class="pi pi-lock text-primary"></i>
+    </span>
+    <input
+      pInputText
+      type="password"
+      id="password"
+      name="password"
+      class="form-control border-start-0"
+      placeholder="Enter your password"
+      required
+      [(ngModel)]="model.password"
+      #password="ngModel"
+    />
+  </div>
+  <small class="text-danger" *ngIf="password.invalid && password.touched">
+    Password is required
+  </small>
+</div>
+
+          <!-- Forgot Password -->
+          <div class="mb-4 d-flex justify-content-end">
+            <a href="#" class="text-decoration-none text-primary small">Forgot Password?</a>
           </div>
-          <small class="text-danger" *ngIf="email.invalid && email.touched">
-            <span *ngIf="email.errors?.['required']">Email is required</span>
-            <span *ngIf="email.errors?.['email']">Enter a valid email</span>
-          </small>
-        </div>
 
-        <!-- Password -->
-        <div class="mb-4">
-          <label for="password" class="form-label fw-semibold">Password</label>
-          <div class="input-group">
-            <span class="input-group-text bg-white border-end-0">
-              <i class="pi pi-lock text-primary"></i>
-            </span>
-            <input
-              pInputText
-              type="password"
-              id="password"
-              name="password"
-              class="form-control border-start-0"
-              placeholder="Enter your password"
-              required
-              [(ngModel)]="model.password"
-              #password="ngModel"
-            />
+          <!-- Submit Button -->
+          <div class="d-grid mb-3">
+            <button
+              pButton
+              type="submit"
+              label="Login"
+              icon="pi pi-sign-in"
+              class="p-button p-button-primary p-button-rounded fw-semibold"
+              [disabled]="loginForm.invalid"
+            ></button>
           </div>
-          <small class="text-danger" *ngIf="password.invalid && password.touched">
-            Password is required
-          </small>
+        </form>
+
+        <!-- Register Redirect -->
+        <div class="text-center mt-3">
+          <span class="text-muted small">Don't have an account?</span>
+          <a routerLink="/auth/register" class="text-primary text-decoration-none fw-medium">Register here</a>
         </div>
-
-        <!-- Remember Me -->
-        <div class="mb-4 d-flex justify-content-between align-items-center">
-        
-          <a href="#" class="text-decoration-none text-primary small">Forgot Password?</a>
-        </div>
-
-        <!-- Submit Button -->
-        <button
-          pButton
-          type="submit"
-          label="Login"
-          class="w-100 p-button-rounded p-button-primary"
-          [disabled]="loginForm.invalid"
-        ></button>
-      </form>
-
-      <!-- Register Redirect -->
-      <div class="text-center mt-4">
-        <p class="mb-0 text-muted">
-          Don't have an account?
-          <a routerLink="/auth/register" class="text-primary fw-semibold" style="cursor: pointer;">Register here</a>
-        </p>
       </div>
     </div>
   </div>

@@ -22,7 +22,7 @@
       <!-- Plan Name -->
       <div class="col-md-6">
         <label for="planName" class="form-label fw-bold">
-          <i class="pi pi-tag me-2"></i>Plan Name
+          <i class="pi pi-tag me-2"></i>Plan Name <sup class="text-danger">*</sup>
         </label>
         <input
           type="text"
@@ -33,6 +33,7 @@
           name="planName"
           required
           minlength="3"
+          pattern="^(?!\s)(?!.*\s$).*"
           #planName="ngModel"
           autofocus
         />
@@ -44,13 +45,16 @@
           <div *ngIf="planName.errors?.['minlength']">
             At least 3 characters.
           </div>
+          <div *ngIf="planName.errors?.['pattern']">
+            Plan Name cannot have leading or trailing spaces.
+          </div>
         </div>
       </div>
 
       <!-- Price -->
       <div class="col-md-6">
         <label for="planPrice" class="form-label fw-bold">
-          <i class="pi pi-dollar me-2"></i>Price
+          <i class="pi pi-dollar me-2"></i>Price <sup class="text-danger">*</sup>
         </label>
         <input
           type="number"
@@ -63,15 +67,12 @@
           min="1"
           #planPrice="ngModel"
         />
-        <div *ngIf="planName.invalid && planName.touched" class="text-danger">
-          <div *ngIf="planName.errors?.['required']">
-            Plan Name is required.
+        <div *ngIf="planPrice.invalid && planPrice.touched" class="text-danger">
+          <div *ngIf="planPrice.errors?.['required']">
+            Price is required.
           </div>
-          <div *ngIf="planName.errors?.['minlength']">
-            At least 3 characters.
-          </div>
-          <div *ngIf="planName.errors?.['duplicate']">
-            A plan with this name already exists.
+          <div *ngIf="planPrice.errors?.['min']">
+            Price must be greater than or equal to 1.
           </div>
         </div>
       </div>
@@ -79,7 +80,7 @@
       <!-- Description -->
       <div class="col-md-12">
         <label for="description" class="form-label fw-bold">
-          <i class="pi pi-align-left me-2"></i>Description
+          <i class="pi pi-align-left me-2"></i>Description <sup class="text-danger">*</sup>
         </label>
         <textarea
           pInputTextarea
@@ -89,6 +90,7 @@
           name="description"
           required
           minlength="10"
+          pattern="^(?!\s)(?!.*\s$).*"
           rows="3"
           #description="ngModel"
         ></textarea>
@@ -103,13 +105,16 @@
           <div *ngIf="description.errors?.['minlength']">
             Minimum 10 characters.
           </div>
+          <div *ngIf="description.errors?.['pattern']">
+            Description cannot have leading or trailing spaces.
+          </div>
         </div>
       </div>
 
       <!-- Time Period -->
       <div class="col-md-6">
         <label for="planDuration" class="form-label fw-bold">
-          <i class="pi pi-clock me-2"></i>Time Period
+          <i class="pi pi-clock me-2"></i>Time Period <sup class="text-danger">*</sup>
         </label>
         <p-dropdown
           [(ngModel)]="model.planDuration"
