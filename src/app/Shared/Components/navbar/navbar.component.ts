@@ -12,6 +12,7 @@ import { Menubar } from 'primeng/menubar';
 })
 export class NavbarComponent {
   items: MenuItem[] | undefined;
+  rightItems: MenuItem[] | undefined;
 
   constructor(private router: Router) {}
 
@@ -30,16 +31,18 @@ export class NavbarComponent {
         command: () => {
           this.router.navigate(['/secure/SubscriptionPlans']);
         },
-      },
+      }
+    ];
+    this.rightItems = [
       {
         label: 'Logout',
         icon: 'pi pi-sign-out',
         command: () => {
           this.logout();
         },
-        styleClass: 'ml-auto' // Optional, for styling
-      },
-    ];
+      }
+    ]
+
   }
 
   logout() {

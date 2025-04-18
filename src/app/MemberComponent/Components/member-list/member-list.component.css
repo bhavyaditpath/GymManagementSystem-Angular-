@@ -5,4 +5,11 @@
   ::ng-deep .center-header .p-datatable tbody > tr > td {
     text-align: start !important;
   }
-    
+  .ellipsis {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  

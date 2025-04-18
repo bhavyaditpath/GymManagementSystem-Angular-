@@ -1,0 +1,33 @@
+::ng-deep .logoutbtn .p-button {
+ border: none;
+
+
+}
+::ng-deep .logoutbtn {
+  border: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .logoutbtn .p-menubar-root-list {
+  border: none !important;
+}
+
+::ng-deep .logoutbtn .p-menubar-button {
+  border: none !important;
+}
+
+::ng-deep .logoutbtn .p-menuitem-link {
+  padding: 0.5rem 1rem;
+  color: white;
+  font-weight: 500;
+}
+
+::ng-deep .logoutbtn .p-menuitem-link:hover {
+  background-color: transparent;
+  color: #f39c12;
+}
+
+
+
+

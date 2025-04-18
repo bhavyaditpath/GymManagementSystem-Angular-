@@ -210,6 +210,11 @@ onSubmit(form: NgForm): void {
   }
 }
 
+removeLeadingSpace() {
+  if (this.model.email) {
+    this.model.email = this.model.email.replace(/^\s+/, '');
+  }
+}
 
   // Handle image upload after member creation/update
   private handleImageUpload(memberId: number, imageFile: File | null): void {

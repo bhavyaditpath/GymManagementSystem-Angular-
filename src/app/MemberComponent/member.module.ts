@@ -24,6 +24,8 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { Checkbox } from 'primeng/checkbox';
 import { CalendarIcon } from 'primeng/icons';
 import { CalendarModule } from 'primeng/calendar';
+import { NoWhitespaceEmailDirective } from '../Shared/validators/no-whitespace-email.directive';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { CalendarModule } from 'primeng/calendar';
     Checkbox,
     CalendarIcon,
     CalendarModule,
-    ToastModule
+    ToastModule,
+    NoWhitespaceEmailDirective,
+    TooltipModule
   ],
   exports: [MemberDetailsComponent],
   providers: [ConfirmationService, MessageService], // Add ConfirmationService and MessageService here

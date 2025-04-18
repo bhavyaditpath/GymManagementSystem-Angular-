@@ -99,6 +99,7 @@
       required
       email
       pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+      appNoWhitespaceEmail
     />
   </div>
   <small class="text-danger" *ngIf="email.invalid && email.touched">
@@ -107,6 +108,7 @@
     <span *ngIf="email.errors?.['pattern']">
       Invalid format. Email must not contain spaces.
     </span>
+    <span *ngIf="email.errors?.['noWhitespaceEmail']">Email cannot contain spaces or have leading/trailing spaces</span>
   </small>
 </div>
 

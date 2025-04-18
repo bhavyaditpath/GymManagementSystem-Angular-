@@ -10,6 +10,7 @@ import { RegisterComponent } from './Component/register/register.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
+import { NoWhitespaceEmailDirective } from '../Shared/validators/no-whitespace-email.directive';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent],
@@ -23,7 +24,8 @@ import { ToastModule } from 'primeng/toast';
     PasswordModule,
     CommonModule,
     FormsModule,
-    ToastModule
+    ToastModule,
+    NoWhitespaceEmailDirective
   ],
   providers: [],
 })

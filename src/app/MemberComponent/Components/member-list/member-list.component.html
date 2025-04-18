@@ -14,6 +14,7 @@
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     class="table table-hover center-header"
+    [scrollable]="true"
   >
     <ng-template #caption>
       <div class="d-flex justify-content-between align-items-center">
@@ -41,22 +42,23 @@
     <!-- Table Header -->
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="fullName">
-          Full Name <p-sortIcon field="fullName"></p-sortIcon>
+        <th pSortableColumn="fullName" style="min-width: 200px">
+          Full Name <p-sortIcon field="fullName"></p-sortIcon>  <p-columnFilter type="text" field="fullName" display="menu" />
         </th>
-        <th pSortableColumn="gender">
-          Gender <p-sortIcon field="gender"></p-sortIcon>
+        <th pSortableColumn="gender" style="min-width: 200px;">
+          Gender <p-sortIcon field="gender"></p-sortIcon>  <p-columnFilter type="text" field="gender" display="menu" />
         </th>
-        <th pSortableColumn="age">Age <p-sortIcon field="age"></p-sortIcon></th>
-        <th pSortableColumn="subscriptionPlanName">
+        <th pSortableColumn="age" style="min-width: 200px;">Age <p-sortIcon field="age"></p-sortIcon>  <p-columnFilter type="text" field="age" display="menu" />
+        </th>
+        <th pSortableColumn="subscriptionPlanName" style="min-width: 200px;">
           Subscription Plan
-          <p-sortIcon field="subscriptionPlanName"></p-sortIcon>
+          <p-sortIcon field="subscriptionPlanName"></p-sortIcon>  <p-columnFilter type="text" field="subscriptionPlanName" display="menu" />
         </th>
-        <th pSortableColumn="email">
-          Email <p-sortIcon field="email"></p-sortIcon>
+          <th pSortableColumn="email" style="min-width: 200px;">
+          Email <p-sortIcon field="email"></p-sortIcon>  <p-columnFilter type="text" field="email" display="menu" />    
         </th>
-        <th>Status</th>
-        <th>Actions</th>
+        <th style="min-width: 200px;">Status </th>  
+        <th style="min-width: 300px; text-align: center;">Actions</th>
       </tr>
     </ng-template>
 
@@ -80,7 +82,7 @@
           ></p-button>
         </td>
         <td>
-          <div class="d-flex justify-content-center gap-2 flex-wrap">
+          <div class="d-flex justify-content-start gap-2 flex-wrap">
             <p-button
               icon="pi pi-pencil"
               class="btn"

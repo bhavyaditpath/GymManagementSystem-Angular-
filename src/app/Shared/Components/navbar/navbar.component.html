@@ -1,5 +1,11 @@
 <div class="">
-  <p-menubar [model]="items"></p-menubar>
+  <p-menubar [model]="items">
+    <ng-template #end>
+      <div class="flex items-center gap-2">
+        <p-menubar [model]="rightItems" class="logoutbtn"></p-menubar>
+      </div>
+    </ng-template>
+  </p-menubar>
 </div>
 
 <router-outlet></router-outlet>

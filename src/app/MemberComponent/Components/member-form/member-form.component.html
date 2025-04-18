@@ -77,13 +77,14 @@
         <label for="email" class="form-label fw-bold">
           <i class="pi pi-envelope me-1"></i>Email <sup class="text-danger">*</sup>
         </label>
-        <input type="email" pInputText class="form-control" id="email" [(ngModel)]="model.email" name="email" required
-          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" #email="ngModel" />
+        <input type="email" pInputText class="form-control" id="email" [(ngModel)]="model.email" name="email" required appNoWhitespaceEmail
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" #email="ngModel"  />
         <small class="form-text text-muted">Enter a valid email address.</small>
         <div *ngIf="email.invalid && email.touched" class="text-danger">
           <div *ngIf="email.errors?.['required']">Email is required.</div>
           <div *ngIf="email.errors?.['email']">Enter a valid email address.</div>
           <div *ngIf="email.errors?.['pattern']">Invalid format. Please enter a valid email address.</div>
+          <span *ngIf="email.errors?.['noWhitespaceEmail']">Email cannot contain spaces or have leading/trailing spaces</span>
           <small *ngIf="email.errors?.['emailNotUnique'] && email.touched" class="text-danger">
             This email is already registered.
           </small>
