@@ -37,7 +37,7 @@ export class MemberFormComponent implements OnInit {
     private subscriptionPlanService: PlansService,
     private messageService: MessageService,
     private apiService: ApiService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const memberId = this.route.snapshot.params['id'];
@@ -98,9 +98,10 @@ export class MemberFormComponent implements OnInit {
     });
   }
 
-  onFileSelect(event: any) {
+  onFileSelect(event: any): void {
     const file = event.files[0];
     if (file) {
+      this.selectedFile = file; // THIS LINE IS MISSING
       const reader = new FileReader();
       reader.onload = () => {
         this.previewImageUrl = reader.result as string;
@@ -109,8 +110,9 @@ export class MemberFormComponent implements OnInit {
     }
   }
 
-  removePreviewImage() {
+  removePreviewImage(): void {
     this.previewImageUrl = null;
+    this.selectedFile = null; // optional: reset selected file
   }
 
   onSubmit(form: NgForm): void {

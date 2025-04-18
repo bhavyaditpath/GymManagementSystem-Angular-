@@ -7,7 +7,7 @@ export class Member {
   lastname?: string; // Added last name
   gender?: GenderEnum;
   age?: number;
-  subscriptionPlanId?: subscriptionPlanModel;
+  subscriptionPlanId?: number;
   joiningDate?: Date = new Date();
   email?: string;
   phoneNumber: string = '';

@@ -28,8 +28,7 @@
               ],
                "styles": [
               "src/styles.css",
-              "primeicons/primeicons.css",
-              "animate.css/animate.min.css"
+              "primeicons/primeicons.css"
             ],
               "scripts": []
             },
