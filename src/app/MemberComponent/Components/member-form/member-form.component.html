@@ -2,12 +2,8 @@
   <div class="container">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center py-4">
-      <p-button
-        label="Back"
-        icon="pi pi-arrow-left"
-        class="p-button-secondary"
-        (click)="router.navigate(['/secure/member'])"
-      ></p-button>
+      <p-button label="Back" icon="pi pi-arrow-left" class="p-button-secondary"
+        (click)="router.navigate(['/secure/member'])"></p-button>
 
       <h2 class="text-center flex-grow-1 m-0">
         {{ isEditMode ? "Edit Member" : "Add New Member" }}
@@ -23,30 +19,14 @@
         <label for="firstName" class="form-label fw-bold">
           <i class="pi pi-user me-1"></i>First Name <sup class="text-danger">*</sup>
         </label>
-        <input
-          type="text"
-          pInputText
-          class="form-control"
-          id="firstName"
-          [(ngModel)]="model.firstname"
-          name="firstName"
-          required
-          minlength="3"
-          #firstName="ngModel"
-          pattern="^(?!\s)(?!.*\s$).*"
-          autofocus
-        />
+        <input type="text" pInputText class="form-control" id="firstName" [(ngModel)]="model.firstname" name="firstName"
+          required minlength="3" #firstName="ngModel" pattern="^(?!\s)(?!.*\s$)[A-Za-z]+(?: [A-Za-z]+)*$" autofocus />
         <small class="form-text text-muted">At least 3 characters.</small>
         <div *ngIf="firstName.invalid && firstName.touched" class="text-danger">
-          <div *ngIf="firstName.errors?.['required']">
-            First Name is required.
-          </div>
-          <div *ngIf="firstName.errors?.['minlength']">
-            Must be at least 3 characters.
-          </div>
-          <div *ngIf="firstName.errors?.['pattern']">
-            Invalid format. First name cannot have leading or trailing spaces.
-          </div>
+          <div *ngIf="firstName.errors?.['required']">First Name is required.</div>
+          <div *ngIf="firstName.errors?.['minlength']">Must be at least 3 characters.</div>
+          <div *ngIf="firstName.errors?.['pattern']">Invalid format. First name cannot have leading or trailing spaces
+            and only allows letters or the ampersand (&) character.</div>
         </div>
       </div>
 
@@ -55,29 +35,14 @@
         <label for="lastName" class="form-label fw-bold">
           <i class="pi pi-user me-1"></i>Last Name <sup class="text-danger">*</sup>
         </label>
-        <input
-          type="text"
-          pInputText
-          class="form-control"
-          id="lastName"
-          [(ngModel)]="model.lastname"
-          name="lastName"
-          required
-          minlength="3"
-          #lastName="ngModel"
-          pattern="^(?!\s)(?!.*\s$).*"
-        />
+        <input type="text" pInputText class="form-control" id="lastName" [(ngModel)]="model.lastname" name="lastName"
+          required minlength="3" #lastName="ngModel" pattern="^(?!\s)(?!.*\s$)[A-Za-z]+(?: [A-Za-z]+)*$" />
         <small class="form-text text-muted">At least 3 characters.</small>
         <div *ngIf="lastName.invalid && lastName.touched" class="text-danger">
-          <div *ngIf="lastName.errors?.['required']">
-            Last Name is required.
-          </div>
-          <div *ngIf="lastName.errors?.['minlength']">
-            Must be at least 3 characters.
-          </div>
-          <div *ngIf="lastName.errors?.['pattern']">
-            Invalid format. Last name cannot have leading or trailing spaces.
-          </div>
+          <div *ngIf="lastName.errors?.['required']">Last Name is required.</div>
+          <div *ngIf="lastName.errors?.['minlength']">Must be at least 3 characters.</div>
+          <div *ngIf="lastName.errors?.['pattern']">Invalid format. Last name cannot have leading or trailing spaces and
+            only allows letters or the ampersand (&) character.</div>
         </div>
       </div>
 
@@ -86,17 +51,8 @@
         <label class="form-label fw-bold">
           <i class="pi pi-users me-1"></i>Gender <sup class="text-danger">*</sup>
         </label>
-        <p-select
-          [(ngModel)]="model.gender"
-          name="gender"
-          optionLabel="displayName"
-          optionValue="name"
-          placeholder="Select Gender"
-          [options]="genderOptions"
-          class="w-100"
-          required
-          #gender="ngModel"
-        ></p-select>
+        <p-select [(ngModel)]="model.gender" name="gender" optionLabel="displayName" optionValue="name"
+          placeholder="Select Gender" [options]="genderOptions" class="w-100" required #gender="ngModel"></p-select>
         <div *ngIf="gender.invalid && gender.touched" class="text-danger mt-1">
           <small>Gender is required.</small>
         </div>
@@ -107,18 +63,8 @@
         <label for="age" class="form-label fw-bold">
           <i class="pi pi-calendar me-1"></i>Age <sup class="text-danger">*</sup>
         </label>
-        <input
-          type="number"
-          pInputText
-          class="form-control"
-          id="age"
-          [(ngModel)]="model.age"
-          name="age"
-          required
-          min="18"
-          max="100"
-          #age="ngModel"
-        />
+        <input type="number" pInputText class="form-control" id="age" [(ngModel)]="model.age" name="age" required
+          min="18" max="100" #age="ngModel" />
         <div *ngIf="age.invalid && age.touched" class="text-danger">
           <div *ngIf="age.errors?.['required']">Age is required.</div>
           <div *ngIf="age.errors?.['min']">Age must be at least 18.</div>
@@ -131,25 +77,16 @@
         <label for="email" class="form-label fw-bold">
           <i class="pi pi-envelope me-1"></i>Email <sup class="text-danger">*</sup>
         </label>
-        <input
-          type="email"
-          pInputText
-          class="form-control"
-          id="email"
-          [(ngModel)]="model.email"
-          name="email"
-          required
-          #email="ngModel"
-          pattern="^(?!\s)(?!.*\s$).*"
-        />
+        <input type="email" pInputText class="form-control" id="email" [(ngModel)]="model.email" name="email" required
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" #email="ngModel" />
+        <small class="form-text text-muted">Enter a valid email address.</small>
         <div *ngIf="email.invalid && email.touched" class="text-danger">
           <div *ngIf="email.errors?.['required']">Email is required.</div>
-          <div *ngIf="email.errors?.['email']">
-            Enter a valid email address.
-          </div>
-          <div *ngIf="email.errors?.['pattern']">
-            Invalid format. Email cannot have leading or trailing spaces.
-          </div>
+          <div *ngIf="email.errors?.['email']">Enter a valid email address.</div>
+          <div *ngIf="email.errors?.['pattern']">Invalid format. Please enter a valid email address.</div>
+          <small *ngIf="email.errors?.['emailNotUnique'] && email.touched" class="text-danger">
+            This email is already registered.
+          </small>
         </div>
       </div>
 
@@ -159,28 +96,12 @@
           <i class="pi pi-phone me-1"></i>Phone Number <sup class="text-danger">*</sup>
         </label>
         <div class="input-group">
-          <input
-            type="text"
-            pInputText
-            class="form-control"
-            id="phoneNumber"
-            [(ngModel)]="model.phoneNumber"
-            name="phoneNumber"
-            pattern="^\d{10}$"
-            required
-            #phoneNumber="ngModel"
-          />
+          <input type="text" pInputText class="form-control" id="phoneNumber" [(ngModel)]="model.phoneNumber"
+            name="phoneNumber" pattern="^\d{10}$" required #phoneNumber="ngModel" />
         </div>
-        <div
-          *ngIf="phoneNumber.invalid && phoneNumber.touched"
-          class="text-danger mt-1"
-        >
-          <small *ngIf="phoneNumber.errors?.['required']"
-            >Phone Number is required.</small
-          >
-          <small *ngIf="phoneNumber.errors?.['pattern']"
-            >Invalid format. Only numbers format is allowed.</small
-          >
+        <div *ngIf="phoneNumber.invalid && phoneNumber.touched" class="text-danger mt-1">
+          <small *ngIf="phoneNumber.errors?.['required']">Phone Number is required.</small>
+          <small *ngIf="phoneNumber.errors?.['pattern']">Invalid format. Only numbers format is allowed.</small>
         </div>
       </div>
 
@@ -189,97 +110,51 @@
         <label for="subscriptionPlanId" class="form-label fw-bold">
           <i class="pi pi-tags me-1"></i>Subscription Plan <sup class="text-danger">*</sup>
         </label>
-        <p-dropdown
-          id="subscriptionPlanId"
-          [options]="subscriptionPlans"
-          optionLabel="planName"
-          optionValue="subscriptionPlanId"
-          [(ngModel)]="model.subscriptionPlanId"
-          name="subscriptionPlanId"
-          placeholder="Select Subscription Plan"
-          class="w-100"
-          required
-          #subscriptionPlanId="ngModel"
-        ></p-dropdown>
-        <div
-          *ngIf="subscriptionPlanId.invalid && subscriptionPlanId.touched"
-          class="text-danger"
-        >
+        <p-dropdown id="subscriptionPlanId" [options]="subscriptionPlans" optionLabel="planName"
+          optionValue="subscriptionPlanId" [(ngModel)]="model.subscriptionPlanId" name="subscriptionPlanId"
+          placeholder="Select Subscription Plan" class="w-100" required #subscriptionPlanId="ngModel"></p-dropdown>
+        <div *ngIf="subscriptionPlanId.invalid && subscriptionPlanId.touched" class="text-danger">
           <small>Subscription Plan is required.</small>
         </div>
       </div>
-
       <!-- Joining Date -->
       <div class="col-md-6" *ngIf="model && model.joiningDate">
         <label for="joiningDate" class="form-label fw-bold">
           <i class="pi pi-calendar me-1"></i>Joining Date <sup class="text-danger">*</sup>
         </label>
-
-        <p-calendar
-          [(ngModel)]="model.joiningDate"
-          [maxDate]="today"
-          dateFormat="yy-mm-dd"
-          showIcon="true"
-          placeholder="Select Joining Date"
-          name="joiningDate"
-          id="joiningDate"
-          required
-          #joiningDate="ngModel"
-        ></p-calendar>
-
-        <div
-          *ngIf="joiningDate.invalid && joiningDate.touched"
-          class="text-danger"
-        >
-          <small *ngIf="joiningDate.errors?.['required']">
-            Joining date is required.
-          </small>
+        <p-calendar [(ngModel)]="model.joiningDate" [maxDate]="today" styleClass="w-100"
+          dateFormat="yy-mm-dd" showIcon="true" placeholder="Select Joining Date" name="joiningDate" id="joiningDate"
+          required #joiningDate="ngModel" [ngClass]="{ 'd-block w-100': true, 'is-invalid': joiningDate.invalid && joiningDate.touched }"
+          [ngModelOptions]="{ updateOn: 'blur' }" (onBlur)="validateYear(model.joiningDate)"></p-calendar>
+        <div *ngIf="joiningDate.invalid && joiningDate.touched" class="text-danger">
+          <small *ngIf="joiningDate.errors?.['required']">Joining date is required.</small>
+          <small *ngIf="joiningDate.errors?.['invalidYear']">Year must be between 1900 and the current year.</small>
+          <small *ngIf="joiningDate.errors?.['dateRange']">Joining date must be within 10 days before or after
+            today.</small>
         </div>
       </div>
+
+
+
 
       <!-- Profile Image Section -->
       <div class="col-md-12">
         <label class="form-label fw-bold">
           <i class="pi pi-image me-1"></i>Profile Picture
         </label>
-
-        <div
-          *ngIf="previewImageUrl"
-          class="d-flex justify-content-start align-items-start my-3 position-relative"
-        >
-          <!-- Circular Image Preview -->
+        <div *ngIf="previewImageUrl" class="d-flex justify-content-start align-items-start my-3 position-relative">
           <div class="position-relative">
-            <img
-              [src]="previewImageUrl"
-              alt="Preview"
-              class="img-thumbnail shadow rounded-circle"
-              style="max-height: 200px; max-width: 200px"
-            />
-
-            <!-- Close Button (Top-right corner) -->
-            <button
-              type="button"
-              pButton
-              icon="pi pi-times"
+            <img [src]="previewImageUrl" alt="Preview" class="img-thumbnail shadow rounded-circle"
+              style="max-height: 200px; max-width: 200px" />
+            <button type="button" pButton icon="pi pi-times"
               class="p-button-danger p-button-rounded p-button-sm position-absolute top-0 end-0 m-2"
-              (click)="removePreviewImage()"
-            ></button>
+              (click)="removePreviewImage()"></button>
           </div>
         </div>
-
         <div *ngIf="!previewImageUrl" class="text-center mt-3">
-          <!-- File Upload Button (Only shown when no preview image) -->
-          <p-fileUpload
-            name="profileImage"
-            accept="image/*"
-            maxFileSize="5000000"
-            [showUploadButton]="false"
-            [customUpload]="true"
-            [auto]="false"
-            chooseLabel="Select Image"
-            (onSelect)="onFileSelect($event)"
-            class="w-100 shadow-sm"
-          >
+          <p-fileUpload name="profileImage" accept="image/*" maxFileSize="5000000" [showUploadButton]="false"
+            [customUpload]="true" [auto]="false" chooseLabel="Select Image" (onSelect)="onFileSelect($event)"
+            class="w-100 shadow-sm">
             <ng-template pTemplate="content">
               <div class="text-center">
                 <i class="pi pi-upload" style="font-size: 2rem"></i>
@@ -292,32 +167,19 @@
 
       <!-- Activate Checkbox -->
       <div class="col-md-6 d-flex align-items-center pt-4">
-        <p-checkbox
-          [(ngModel)]="model.isActive"
-          inputId="isActive"
-          name="isActive"
-          [binary]="true"
-        ></p-checkbox>
-        <label for="isActive" class="px-2 fw-bold">deactivate member</label>
+        <p-checkbox [(ngModel)]="model.isActive" inputId="isActive" name="isActive" [binary]="true"></p-checkbox>
+        <label for="isActive" class="px-2 fw-bold">Deactivate member</label>
       </div>
 
       <!-- Action Buttons -->
       <div class="text-center mt-5">
-        <p-button
-          label="{{ isEditMode ? 'Save Changes' : 'Add Member' }}"
-          icon="pi pi-check"
-          type="submit"
-          class="me-2 px-4"
-          [disabled]="newMemberForm.invalid"
-        ></p-button>
+        <p-button label="{{ isEditMode ? 'Save Changes' : 'Add Member' }}"   icon="pi pi-save" type="submit"
+          class="me-2 px-4" [disabled]="newMemberForm.invalid"></p-button>
 
-        <p-button
-          label="Reset"
-          icon="pi pi-refresh"
-          class="p-button-text px-4"
-          (click)="newMemberForm.resetForm()"
-        ></p-button>
+        <p-button label="Reset" icon="pi pi-refresh" class="p-button-text px-4"
+          (click)="newMemberForm.resetForm()"></p-button>
       </div>
     </div>
   </div>
+  <p-toast></p-toast>
 </form>

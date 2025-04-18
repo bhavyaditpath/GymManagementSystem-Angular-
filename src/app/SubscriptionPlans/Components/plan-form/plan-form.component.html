@@ -33,7 +33,7 @@
           name="planName"
           required
           minlength="3"
-          pattern="^(?!\s)(?!.*\s$).*"
+          pattern="^(?!\s)(?!.*\s$)[A-Za-z]+(?: [A-Za-z]+)*$"
           #planName="ngModel"
           autofocus
         />
@@ -46,7 +46,7 @@
             At least 3 characters.
           </div>
           <div *ngIf="planName.errors?.['pattern']">
-            Plan Name cannot have leading or trailing spaces.
+            Plan Name cannot have leading or trailing spaces or and special characters.
           </div>
         </div>
       </div>
@@ -95,10 +95,7 @@
           #description="ngModel"
         ></textarea>
         <small class="form-text text-muted">At least 10 characters.</small>
-        <div
-          *ngIf="description.invalid && description.touched"
-          class="text-danger"
-        >
+        <div *ngIf="description.invalid && description.touched" class="text-danger">
           <div *ngIf="description.errors?.['required']">
             Description is required.
           </div>
@@ -126,10 +123,7 @@
           class="w-100"
           #planDuration="ngModel"
         ></p-dropdown>
-        <div
-          *ngIf="planDuration.invalid && planDuration.touched"
-          class="text-danger"
-        >
+        <div *ngIf="planDuration.invalid && planDuration.touched" class="text-danger">
           <small>Time Period is required.</small>
         </div>
       </div>

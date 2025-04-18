@@ -18,15 +18,15 @@
         style="z-index: 1"
       >
         <!-- Logo -->
-        <img src="/assets/logo.png" alt="GymPro Logo" class="mb-3" style="height: 60px;" />
+        <!-- <img src="/assets/logo.png" alt="GymPro Logo" class="mb-3" style="height: 60px;" /> -->
 
         <!-- Text -->
-        <h3 class="fw-bold fs-2">Welcome to GymPro</h3>
+        <!-- <h3 class="fw-bold fs-2">Welcome to GymPro</h3>
         <p class="small mb-2">Unleash your potential with every rep</p>
         <p class="small d-none d-md-block">
           Join our fitness community today and take the first step toward your transformation.
           Sign up to access personalized plans, expert guidance, and more.
-        </p>
+        </p> -->
       </div>
 
       <!-- Optional gradient overlay -->
@@ -41,7 +41,7 @@
         <div class="text-center mb-4">
           <!-- Logo for small screens -->
           <img src="/assets/logo.png" alt="GymPro Logo" class="mb-2 d-md-none" style="height: 50px;" />
-          <h2 class="fw-bold text-dark mb-1">Create Your Account</h2>
+          <h2 class="fw-bold text-muted mb-1">Create Your Account</h2>
           <p class="text-muted small mb-0">Start your fitness journey with us today</p>
         </div>
 
@@ -50,31 +50,34 @@
 
           <!-- Username -->
        <!-- Username -->
-<div class="mb-4">
-  <label for="username" class="form-label fw-semibold">
-    Username <sup class="text-danger">*</sup>
-  </label>
-  <div class="input-group custom-input-group">
-    <span class="input-group-text bg-white border-end-0">
-      <i class="pi pi-user text-primary"></i>
-    </span>
-    <input
-      type="text"
-      id="username"
-      name="username"
-      pInputText
-      class="form-control border-start-0"
-      placeholder="Enter username"
-      [(ngModel)]="user.username"
-      #username="ngModel"
-      required
-    />
-  </div>
-  <small class="text-danger" *ngIf="username.invalid && username.touched">
-    Username is required
-  </small>
-</div>
-
+       <div class="mb-4">
+        <label for="username" class="form-label fw-semibold">
+          Username <sup class="text-danger">*</sup>
+        </label>
+        <div class="input-group custom-input-group">
+          <span class="input-group-text bg-white border-end-0">
+            <i class="pi pi-user text-primary"></i>
+          </span>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            pInputText
+            class="form-control border-start-0"
+            placeholder="Enter username"
+            [(ngModel)]="user.username"
+            #username="ngModel"
+            required
+            minlength="3"
+            pattern="^(?!\s)(?!.*\s$)[a-zA-Z0-9_]+$"
+          />
+        </div>
+        <small class="text-danger" *ngIf="username.invalid && username.touched">
+          <span *ngIf="username.errors?.['required']">Username is required</span>
+          <span *ngIf="username.errors?.['minlength']">At least 3 characters</span>
+          <span *ngIf="username.errors?.['pattern']">No spaces, only letters, numbers, and underscores</span>
+        </small>
+      </div>
 <!-- Email -->
 <div class="mb-4">
   <label for="email" class="form-label fw-semibold">
@@ -95,11 +98,15 @@
       #email="ngModel"
       required
       email
+      pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
     />
   </div>
   <small class="text-danger" *ngIf="email.invalid && email.touched">
     <span *ngIf="email.errors?.['required']">Email is required</span>
     <span *ngIf="email.errors?.['email']">Invalid email format</span>
+    <span *ngIf="email.errors?.['pattern']">
+      Invalid format. Email must not contain spaces.
+    </span>
   </small>
 </div>
 
@@ -122,16 +129,18 @@
       placeholder="Enter password"
       required
       minlength="6"
+      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]{6,}$"
       class="form-control border-start-0 p-0"
     ></p-password>
   </div>
   <small class="text-danger" *ngIf="password.invalid && password.touched">
     <span *ngIf="password.errors?.['required']">Password is required</span>
     <span *ngIf="password.errors?.['minlength']">At least 6 characters</span>
+    <span *ngIf="password.errors?.['pattern']">Must include uppercase, lowercase, and number</span>
   </small>
 </div>
 
-<!-- Confirm Password -->
+<!-- Confirm Password (no pattern required) -->
 <div class="mb-4">
   <label for="confirmPassword" class="form-label fw-semibold">
     Confirm Password <sup class="text-danger">*</sup>

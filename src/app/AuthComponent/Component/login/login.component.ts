@@ -32,7 +32,7 @@ export class LoginComponent {
         error: (error) => {
           console.error('Login failed:', error);
 
-          if (error.status === 400) {
+          if (error.status === 401) {
             this.messageService.add({
               severity: 'warn',
               summary: 'Invalid Credentials',

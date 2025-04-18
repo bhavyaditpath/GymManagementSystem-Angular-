@@ -32,3 +32,9 @@
   justify-content: space-between;
   margin-top: 20px;
 }
+
+::ng-deep .p-calendar {
+  width: 100% !important;
+}
+
+

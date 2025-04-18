@@ -1,8 +1,8 @@
 ::ng-deep .center-header .p-datatable thead > tr > th {
-    text-align: center !important;
+    text-align: start !important;
   }
   ::ng-deep .center-header .p-datatable thead > tr > th,
   ::ng-deep .center-header .p-datatable tbody > tr > td {
-    text-align: center !important;
+    text-align: start !important;
   }
     

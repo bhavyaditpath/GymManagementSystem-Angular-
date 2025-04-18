@@ -30,6 +30,7 @@ export class MemberFormComponent implements OnInit {
     { name: 'Other', displayName: 'Other' },
   ];
 
+
   constructor(
     private memberService: MemberService,
     public router: Router,
@@ -37,22 +38,45 @@ export class MemberFormComponent implements OnInit {
     private subscriptionPlanService: PlansService,
     private messageService: MessageService,
     private apiService: ApiService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const memberId = this.route.snapshot.params['id'];
     this.loadSubscriptionPlans();
 
-    if (!memberId) {
-      this.model.joiningDate = new Date();
-    }
+    
 
     if (memberId) {
       this.isEditMode = true;
       this.loadMemberById(memberId);
+    } else {
+      this.model.joiningDate = new Date();
     }
   }
 
+  // Calculate max date (10 days from today
+
+  // Calculate min date (10 days before today)
+  calculateMinSelectableDate(): Date {
+    const minDate = new Date(this.today);
+    minDate.setDate(this.today.getDate() - 10); // 10 days before today
+    return minDate;
+  }
+
+  // Validate year and date range
+  validateYear(date: Date): { [key: string]: boolean } | null {
+    const year = date.getFullYear();
+    const currentYear = this.today.getFullYear();
+    const selectedDate = new Date(date);
+    
+    // Check if the year is valid
+    if (year < 1900 || year > currentYear) {
+      return { invalidYear: true };
+    }
+    return null;
+  }
+
+  // Load member by ID for editing
   private loadMemberById(id: number): void {
     this.loading = true;
     this.memberService.getMemberById(id).subscribe({
@@ -62,9 +86,7 @@ export class MemberFormComponent implements OnInit {
           : undefined;
         this.model = { ...response };
         if (this.model.memberImagePath) {
-          this.previewImageUrl = this.apiService.getImageUrl(
-            this.model.memberImagePath
-          );
+          this.previewImageUrl = this.apiService.getImageUrl(this.model.memberImagePath);
         }
         this.loading = false;
       },
@@ -80,12 +102,11 @@ export class MemberFormComponent implements OnInit {
     });
   }
 
+  // Load subscription plans
   private loadSubscriptionPlans(): void {
     this.subscriptionPlanService.getPlans().subscribe({
       next: (plans) => {
-        this.subscriptionPlans = plans.filter(
-          (plan) => plan.isActive === false
-        );
+        this.subscriptionPlans = plans.filter((plan) => plan.isActive === false);
       },
       error: (err) => {
         console.error('Failed to load subscription plans:', err);
@@ -98,10 +119,11 @@ export class MemberFormComponent implements OnInit {
     });
   }
 
+  // Handle file selection and image preview
   onFileSelect(event: any): void {
     const file = event.files[0];
     if (file) {
-      this.selectedFile = file; // THIS LINE IS MISSING
+      this.selectedFile = file;
       const reader = new FileReader();
       reader.onload = () => {
         this.previewImageUrl = reader.result as string;
@@ -110,84 +132,88 @@ export class MemberFormComponent implements OnInit {
     }
   }
 
+  // Remove image preview
   removePreviewImage(): void {
     this.previewImageUrl = null;
-    this.selectedFile = null; // optional: reset selected file
+    this.selectedFile = null;
+  }
+// Handle form submission
+onSubmit(form: NgForm): void {
+  if (!this.validateForm(form)) return;
+
+  if (this.model.joiningDate) {
+    const localDate = new Date(this.model.joiningDate);
+    localDate.setHours(0, 0, 0, 0);
+    const year = localDate.getFullYear();
+    const month = localDate.getMonth();
+    const day = localDate.getDate();
+    this.model.joiningDate = new Date(Date.UTC(year, month, day));
   }
 
-  onSubmit(form: NgForm): void {
-    if (!this.validateForm(form)) return;
-
-    if (this.model.joiningDate) {
-      const localDate = new Date(this.model.joiningDate);
-      localDate.setHours(0, 0, 0, 0);
-      const year = localDate.getFullYear();
-      const month = localDate.getMonth();
-      const day = localDate.getDate();
-      this.model.joiningDate = new Date(Date.UTC(year, month, day));
-    }
-
-    if (this.isEditMode) {
-      this.memberService
-        .updateMember(this.model.memberId!, this.model)
-        .subscribe({
-          next: (response) => {
-            // Optional: Update model with response data if returned
-            this.model.memberImagePath =
-              response?.memberImagePath ?? this.model.memberImagePath;
-            this.previewImageUrl = this.apiService.getImageUrl(
-              this.model.memberImagePath ?? ''
-            );
-            this.handleImageUpload(this.model.memberId!, this.selectedFile);
-          },
-          error: (err) => {
-            console.error('Error updating member:', err);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Failed to update member.',
-            });
-          },
-        });
-    } else {
-      this.memberService
-        .createMember(this.model.memberId!, this.model)
-        .subscribe({
-          next: (data) => {
-            if (data?.member?.memberId) {
-              this.model.memberImagePath = data.member.memberImagePath ?? '';
-              this.previewImageUrl = this.apiService.getImageUrl(
-                this.model.memberImagePath
-              );
-              this.handleImageUpload(data.member.memberId, this.selectedFile);
-            } else {
-              this.messageService.add({
-                severity: 'warn',
-                summary: 'Warning',
-                detail:
-                  'Member created, but no ID returned. Skipping image upload.',
-              });
-              this.navigateToMemberList();
-            }
-          },
-          error: (err) => {
-            console.error('Error creating member:', err);
-            if (err.status === 409) {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Failed to create member.',
-              });
-            }
-          },
-        });
-    }
+  if (this.isEditMode) {
+    this.memberService.updateMember(this.model.memberId!, this.model).subscribe({
+      next: (response) => {
+        this.model.memberImagePath = response?.memberImagePath ?? this.model.memberImagePath;
+        this.previewImageUrl = this.apiService.getImageUrl(this.model.memberImagePath ?? '');
+        this.handleImageUpload(this.model.memberId!, this.selectedFile);
+      },
+      error: (err) => {
+        if (err.status === 409) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Duplicate Name',
+            detail: 'Member with this email already exists.',
+          });
+          
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update member.',
+          });
+        }
+      },
+    });
+  } else {
+    this.memberService.createMember(this.model.memberId!, this.model).subscribe({
+      next: (data) => {
+        if (data?.member?.memberId) {
+          this.model.memberImagePath = data.member.memberImagePath ?? '';
+          this.previewImageUrl = this.apiService.getImageUrl(this.model.memberImagePath);
+          this.handleImageUpload(data.member.memberId, this.selectedFile);
+        } else {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Warning',
+            detail: 'Member created, but no ID returned. Skipping image upload.',
+          });
+          this.navigateToMemberList();
+        }
+      },
+      error: (err) => {
+        console.error('Error creating member:', err);
+        if (err.status === 409) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Duplicate Name',
+            detail: 'Member with this email already exists.',
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to create member.',
+          });
+        }
+      },
+    });
   }
-  // getting image null here
+}
+
+
+  // Handle image upload after member creation/update
   private handleImageUpload(memberId: number, imageFile: File | null): void {
-    debugger;
     if (imageFile) {
-      debugger;
       this.memberService.uploadProfileImage(memberId, imageFile).subscribe({
         next: () => {
           this.messageService.add({
@@ -217,6 +243,7 @@ export class MemberFormComponent implements OnInit {
     }
   }
 
+  // Validate form before submission
   private validateForm(form: NgForm): boolean {
     if (form.invalid) {
       this.messageService.add({
@@ -229,6 +256,7 @@ export class MemberFormComponent implements OnInit {
     return true;
   }
 
+  // Navigate to the member list page after save
   private navigateToMemberList(): void {
     this.router.navigate(['/secure/member']);
   }

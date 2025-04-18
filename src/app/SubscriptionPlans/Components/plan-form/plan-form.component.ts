@@ -70,7 +70,6 @@ export class PlanFormComponent {
         .updatePlan(this.model.subscriptionPlanId!, this.model)
         .subscribe({
           next: () => {
-            debugger
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
@@ -79,8 +78,7 @@ export class PlanFormComponent {
             this.navigateToPlanList();
           },
           error: (err) => {
-            debugger
-            if (err.status === 500) {
+            if (err.status === 409) {
               this.messageService.add({
                 severity: 'warn',
                 summary: 'Duplicate Name',
@@ -99,7 +97,7 @@ export class PlanFormComponent {
     } else {
       this.planService.createPlan(this.model).subscribe({
         next: () => {
-          debugger
+          
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -108,7 +106,7 @@ export class PlanFormComponent {
           this.navigateToPlanList();
         },
         error: (err) => {
-          debugger
+          
           if (err.status === 409) {
             this.messageService.add({
               severity: 'warn',
